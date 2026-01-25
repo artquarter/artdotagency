@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  /* This connects the Next.js font variable to the class 'font-kamerick' */
+  --font-kamerick: var(--font-kamerick);
+  
+  /* Let's add your brand colors from the doc while we're here */
+  --color-brand-orange: #FF9900; 
+  --color-brand-dark: #050505;
+}
+
+/* Global Reset for that "Premium Dark" feel */
+body {
+  @apply bg-brand-dark text-white font-sans antialiased;
+}
