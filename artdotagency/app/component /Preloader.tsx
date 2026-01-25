@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
 export default function Preloader({ onFinish }: { onFinish: () => void }) {
   const [count, setCount] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    // 1. KICKSTART: Start at random ~12% so it feels instant (Fixes "takes forever")
+    
     let current = Math.floor(Math.random() * 10) + 10;
-    setCount(current);
 
     const interval = setInterval(() => {
       // 2. RANDOM JUMPS
@@ -20,32 +19,32 @@ export default function Preloader({ onFinish }: { onFinish: () => void }) {
       if (current >= 100) {
         current = 100;
         clearInterval(interval);
-        setCount(100); // Force the 100 update first
+        setCount(100); 
 
-        // 3. MICRO-PAUSE (200ms): 
-        // This is critical. It lets React paint "100" on screen 
-        // BEFORE we tell it to unmount. Fixes the "96" bug.
+        // 3. MICRO-PAUSE & TRIGGER
         setTimeout(() => {
           setIsComplete(true);
-          if (onFinish) onFinish();
+          setTimeout(() => {
+              if (onFinish) onFinish();
+          }, 200); 
         }, 200);
 
       } else {
         setCount(current);
       }
-    }, 20); // Fast tick rate
+    }, 30); 
 
     return () => clearInterval(interval);
   }, [onFinish]);
 
-  const shutterVariants = {
-    initial: { clipPath: "inset(0 0 0 0)" },
+  const shutterVariants: Variants = {
+    initial: { height: "100%" },
     exit: (i: number) => ({
-      clipPath: "inset(100% 0 0 0)",
+      height: "0%",
       transition: {
         duration: 0.8,
-        ease: [0.76, 0, 0.24, 1], // Cinematic Ease
-        delay: i * 0.05, // Stagger
+        ease: [0.76, 0, 0.24, 1] as const, 
+        delay: i * 0.08, 
       },
     }),
   };
@@ -53,31 +52,39 @@ export default function Preloader({ onFinish }: { onFinish: () => void }) {
   return (
     <AnimatePresence>
       {!isComplete && (
-        <div className="fixed inset-0 z-[9999] flex pointer-events-none">
-          
-          {/* THE 5 SHUTTERS */}
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              custom={i}
-              variants={shutterVariants}
-              initial="initial"
-              exit="exit"
-              className="w-1/5 h-full bg-[#050505] relative border-r border-white/5 last:border-r-0"
-            />
-          ))}
-
-          {/* THE NUMBER */}
-          <motion.div
+        <motion.div 
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            className="absolute inset-0 flex flex-col items-center justify-center z-20"
-          >
-            <h1 className="font-kamerick text-[15vw] md:text-[12rem] font-bold text-[#FFB800] tracking-tighter leading-none mix-blend-difference">
-              {count}
-            </h1>
-          </motion.div>
-        </div>
+            exit={{ opacity: 0 }} 
+            transition={{ duration: 0.1, delay: 1.2 }}
+            className="fixed inset-0 z-[9999] flex pointer-events-none"
+        >
+            {/* Background Noise */}
+            <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+          
+            {/* THE 5 SHUTTERS */}
+            {[...Array(5)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  variants={shutterVariants}
+                  initial="initial"
+                  exit="exit"
+                  className="w-1/5 bg-[#050505] relative border-r border-white/5 last:border-r-0 origin-top"
+                />
+            ))}
+
+            {/* THE NUMBER */}
+            <motion.div
+                initial={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.2, filter: "blur(10px)" }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 flex flex-col items-center justify-center z-20 mix-blend-difference"
+            >
+                <h1 className="font-kamerick text-[15vw] md:text-[12rem] font-bold text-[#FFB800] tracking-tighter leading-none">
+                {count}
+                </h1>
+            </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
