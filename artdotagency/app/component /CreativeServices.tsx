@@ -18,7 +18,8 @@ const services = [
 // SUB-COMPONENT: Clean Editorial List Item
 // ------------------------------------------------------------------
 const ServiceItem = ({ service, index }: { service: string; index: number }) => {
-  const ref = useRef(null);
+  // TYPE FIX: Explicitly tell TypeScript this ref belongs to a <div>
+  const ref = useRef<HTMLDivElement>(null); 
   const isInView = useInView(ref, { once: true, margin: "-5%" });
 
   return (
@@ -28,7 +29,6 @@ const ServiceItem = ({ service, index }: { service: string; index: number }) => 
     >
       
       {/* 1. FLASHBULB EFFECT (White flash on hover) */}
-      {/* Subtle, fast flash to signal interaction */}
       <div className="absolute inset-0 bg-white mix-blend-overlay opacity-0 group-hover:animate-flash pointer-events-none z-10" />
       
       {/* 2. HOVER BACKGROUND (Subtle shift) */}

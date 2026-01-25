@@ -1,11 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion"; // 1. Import Variants type
 import Link from "next/link";
 import Silk from "./Silk";
 import { ArrowRight } from "lucide-react";
 
-const textReveal = {
+// 2. Explicitly type the variants to prevent TS errors
+const textReveal: Variants = {
   hidden: { y: "110%" },
   visible: { 
     y: "0%",
@@ -16,7 +17,7 @@ const textReveal = {
   }
 };
 
-const fadeReveal = {
+const fadeReveal: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
@@ -25,16 +26,23 @@ const fadeReveal = {
   }
 };
 
+// 3. Define proper links (Fixing the "#our" vs "#process" bug)
+const navItems = [
+  { id: '01', label: 'About Us', href: '#about' },
+  { id: '02', label: 'Capabilities', href: '#capabilities' },
+  { id: '03', label: 'Reach & Impact', href: '#impact' }, // Changed to #impact based on your previous component
+  { id: '04', label: 'Our Process', href: '#process' }     // Fixed: Was pointing to #our
+];
+
 export default function Hero({ startAnimation }: { startAnimation: boolean }) {
   return (
     <section 
-      // UPDATED CLASS: sticky top-0 z-0
-      // This keeps the Hero frozen while the next section slides over it
       className="sticky top-0 z-0 w-full h-[100dvh] bg-[#050505] overflow-hidden flex flex-col items-center justify-center text-white"
     >
       
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
+        {/* Ensure Silk handles props correctly. If strict, pass numbers in curly braces */}
         <Silk speed={2.0} scale={1.5} color="#453F35" noiseIntensity={0.2} rotation={15} />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_90%)] pointer-events-none" />
       </div>
@@ -112,15 +120,10 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
               ( Scroll to Explore )
             </p>
             <div className="w-full md:w-auto grid grid-cols-2 md:flex md:gap-12 gap-x-4 gap-y-4 text-xs font-bold tracking-widest uppercase text-gray-400">
-              {[
-                { id: '01', label: 'About Us' },
-                { id: '02', label: 'Capabilities' },
-                { id: '03', label: 'Reach & Impact' },
-                { id: '04', label: 'Our Process' }
-              ].map((item) => (
+              {navItems.map((item) => (
                 <Link 
                   key={item.id} 
-                  href={`#${item.label.split(' ')[0].toLowerCase()}`} 
+                  href={item.href} 
                   className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"
                 >
                   <span className="text-[#FFB800] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 hidden md:inline-block">•</span>

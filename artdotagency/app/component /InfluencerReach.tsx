@@ -4,6 +4,15 @@ import { motion, useInView, useSpring, useTransform, useMotionValue } from "fram
 import { useRef, useState, useEffect } from "react";
 import { Instagram, Smartphone } from "lucide-react"; 
 
+// FIX: Define explicit interface for Artist to remove 'any' errors
+interface Artist {
+  name: string;
+  ig: string;
+  tiktok: string | null;
+  handle: string;
+  image: string;
+}
+
 // ------------------------------------------------------------------
 // DATA CONFIGURATION
 // ------------------------------------------------------------------
@@ -12,7 +21,7 @@ const metrics = [
   { value: 22.97, suffix: "M+", label: "Total Impressions" },
 ];
 
-const artists = [
+const artists: Artist[] = [
   { 
     name: "BURNA BOY", 
     ig: "17.7M", tiktok: "6.8M",
@@ -70,7 +79,8 @@ const RollingCounter = ({ value }: { value: number }) => {
     duration: 2 // Long duration for dramatic effect
   });
   
-  const displayValue = useTransform(springValue, (latest) => latest.toFixed(2));
+  // FIX: Typed 'latest' to avoid implicit any error
+  const displayValue = useTransform(springValue, (latest: number) => latest.toFixed(2));
 
   useEffect(() => {
     if (isInView) {
@@ -84,8 +94,9 @@ const RollingCounter = ({ value }: { value: number }) => {
 // ------------------------------------------------------------------
 // SUB-COMPONENT: Cinematic Artist Card
 // ------------------------------------------------------------------
-const ArtistCard = ({ artist, index }: { artist: any, index: number }) => {
+const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
+  // FIX: Typed the ref correctly
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
