@@ -1,21 +1,23 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, Variants } from "framer-motion"; // Added Variants type
 import { useRef } from "react";
 
 // Helper Component for the "Masked Word Reveal" animation
 const MaskedReveal = ({ text, className, delay = 0 }: { text: string, className?: string, delay?: number }) => {
   const words = text.split(" ");
 
-  const container = {
+  // Explicitly type as Variants to fix the build error
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
       opacity: 1,
-      transition: { staggerChildren: 0.01, delayChildren: delay * 0.1 }, // Faster stagger for smaller text
+      transition: { staggerChildren: 0.01, delayChildren: delay * 0.1 }, 
     }),
   };
 
-  const child = {
+  // Explicitly type as Variants to fix the build error
+  const child: Variants = {
     visible: {
       opacity: 1,
       y: 0,
@@ -23,7 +25,7 @@ const MaskedReveal = ({ text, className, delay = 0 }: { text: string, className?
     },
     hidden: {
       opacity: 0,
-      y: 5, // Subtle movement for small text
+      y: 5, 
       transition: { type: "spring", damping: 12, stiffness: 100 },
     },
   };
@@ -58,10 +60,6 @@ export default function AboutMission() {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-  // Unified Style for both paragraphs
-  // - text-sm md:text-lg: Much smaller, editorial size
-  // - text-gray-200: Identical off-white color for both
-  // - font-medium: Consistent weight
   const paragraphStyle = "font-kamerick text-sm md:text-lg font-medium uppercase leading-[1.8] tracking-widest text-gray-200";
 
   return (
@@ -79,9 +77,7 @@ export default function AboutMission() {
       
       <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col gap-24 md:gap-32">
 
-        {/* ------------------------------------------------------- */}
-        {/* 4.2 ABOUT US SECTION                                    */}
-        {/* ------------------------------------------------------- */}
+        {/* 4.2 ABOUT US SECTION */}
         <div className="flex flex-col gap-6 max-w-4xl">
           {/* Label */}
           <motion.div
@@ -114,9 +110,7 @@ export default function AboutMission() {
           </motion.p>
         </div>
 
-        {/* ------------------------------------------------------- */}
-        {/* 4.3 MISSION SECTION                                     */}
-        {/* ------------------------------------------------------- */}
+        {/* 4.3 MISSION SECTION */}
         <div className="flex flex-col gap-6 max-w-4xl self-end text-right">
            {/* Label (Aligned Right) */}
            <motion.div
@@ -131,11 +125,11 @@ export default function AboutMission() {
             <div className="w-12 h-[1px] bg-gray-700" />
           </motion.div>
 
-          {/* Mission Text - Now Identical Style to About */}
+          {/* Mission Text */}
           <div className="flex justify-end">
             <MaskedReveal 
               text="We craft strategic, creative solutions that combine smart ideas with stunning, functional design. By obsessing over the details, we inspire action and deliver measurable results, empowering brands to thrive in a dynamic, ever-evolving marketplace."
-              className={`${paragraphStyle} justify-end text-right`} // Keeps right alignment but matches style
+              className={`${paragraphStyle} justify-end text-right`} 
               delay={2} 
             />
           </div>
