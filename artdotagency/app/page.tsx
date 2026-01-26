@@ -20,14 +20,26 @@ import Cursor from "./component /Cursor";
 import ContactBreak from "./component /ContactBreak";
 
 export default function Home() {
-  // State to coordinate the sequence
-  const [loading, setLoading] = useState(true);
+  // State to coordinate the sequence, initialize from sessionStorage to avoid a synchronous setState inside an effect
+  const [loading, setLoading] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return sessionStorage.getItem("art_session_loaded") ? false : true;
+  });
+
+  // ---------------------------------------------------------
+  // 2. FINISH HANDLER
+  // ---------------------------------------------------------
+  const handleFinish = () => {
+    setLoading(false);
+    // Mark the session as "loaded" so it doesn't run again
+    sessionStorage.setItem("art_session_loaded", "true");
+  };
 
   return (
     <main className="bg-[#050505] min-h-screen">
       
       {/* 1. PRELOADER: Handles the loading state */}
-      <Preloader onFinish={() => setLoading(false)} />
+     {loading && <Preloader onFinish={handleFinish} />}
         
       
       {/* 2. HERO: Stays fixed (Sticky) while content slides over it */}
