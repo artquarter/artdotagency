@@ -1,11 +1,11 @@
 "use client";
 
-import { motion, Variants } from "framer-motion"; // 1. Import Variants type
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import Silk from "./Silk";
 import { ArrowRight } from "lucide-react";
 
-// 2. Explicitly type the variants to prevent TS errors
+// ANIMATION VARIANTS
 const textReveal: Variants = {
   hidden: { y: "110%" },
   visible: { 
@@ -26,12 +26,11 @@ const fadeReveal: Variants = {
   }
 };
 
-// 3. Define proper links (Fixing the "#our" vs "#process" bug)
 const navItems = [
   { id: '01', label: 'About Us', href: '#about' },
   { id: '02', label: 'Capabilities', href: '#capabilities' },
-  { id: '03', label: 'Reach & Impact', href: '#impact' }, // Changed to #impact based on your previous component
-  { id: '04', label: 'Our Process', href: '#process' }     // Fixed: Was pointing to #our
+  { id: '03', label: 'Reach & Impact', href: '#impact' },
+  { id: '04', label: 'Our Process', href: '#process' }
 ];
 
 export default function Hero({ startAnimation }: { startAnimation: boolean }) {
@@ -42,7 +41,6 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
       
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
-        {/* Ensure Silk handles props correctly. If strict, pass numbers in curly braces */}
         <Silk speed={2.0} scale={1.5} color="#453F35" noiseIntensity={0.2} rotation={15} />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_90%)] pointer-events-none" />
       </div>
@@ -60,9 +58,10 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
       </div>
 
       {/* CENTER CONTENT */}
-      <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center gap-8 -mt-24 md:mt-0">
+      <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center gap-6 -mt-24 md:mt-0">
         
-        <h1 className="font-kamerick text-4xl md:text-7xl font-bold leading-[1.0] tracking-tight text-white max-w-4xl flex flex-col items-center">
+        {/* 1. THE HEADLINE (The Challenge) */}
+        <h1 className="font-kamerick text-4xl md:text-7xl font-bold leading-[1.0] tracking-tight text-white max-w-5xl flex flex-col items-center">
           
           <div className="overflow-hidden">
             <motion.span 
@@ -72,7 +71,7 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
               transition={{ delay: 0.1 }} 
               className="block"
             >
-              A brand is only
+              Culture moves faster
             </motion.span>
           </div>
           
@@ -84,17 +83,33 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
                transition={{ delay: 0.2 }} 
                className="block"
              >
-               as strong as its <span className="text-[#FFB800]">strategy.</span>
+               than your <span className="text-[#FFB800]">strategy.</span>
              </motion.span>
           </div>
           
         </h1>
 
+        {/* 2. THE SUB-HEADLINE (The Solution) - NEW */}
+        {/* This answers "Who is this for?" and "What do you do?" */}
+        <motion.div
+            variants={fadeReveal}
+            initial="hidden"
+            animate={startAnimation ? "visible" : "hidden"}
+            transition={{ delay: 0.3 }}
+            className="overflow-hidden"
+        >
+            <p className="font-kamerick text-gray-400 text-xs md:text-sm uppercase tracking-widest max-w-lg leading-relaxed">
+                We bridge the gap between brands and the <br className="hidden md:block"/> generation that drives them. No fluff. Just impact.
+            </p>
+        </motion.div>
+
+        {/* 3. THE CTA */}
         <motion.div 
           variants={fadeReveal}
           initial="hidden"
           animate={startAnimation ? "visible" : "hidden"}
-          transition={{ delay: 0.4 }} 
+          transition={{ delay: 0.5 }} 
+          className="mt-4"
         >
           <Link 
             href="#pricing"
