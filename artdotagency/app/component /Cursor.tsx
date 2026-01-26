@@ -44,9 +44,10 @@ export default function Cursor() {
     <>
       {/* 1. The Small Dot (Instant) */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-[#FFB800] rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        // ADDED: 'hidden md:block' to hide on mobile
+        className="hidden md:block fixed top-0 left-0 w-2 h-2 bg-[#FFB800] rounded-full pointer-events-none z-[9999] mix-blend-difference"
         style={{ 
-            translateX: mouseX, // Need to offset logic slightly for dot vs ring if strict alignment needed, but motion values sync them well
+            translateX: mouseX, 
             translateY: mouseY,
             x: 12, // Manual offset to center inside the ring
             y: 12 
@@ -55,7 +56,8 @@ export default function Cursor() {
 
       {/* 2. The Follower Ring (Smooth) */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-white/50 rounded-full pointer-events-none z-[9998] mix-blend-difference"
+        // ADDED: 'hidden md:block' to hide on mobile
+        className="hidden md:block fixed top-0 left-0 w-8 h-8 border border-white/50 rounded-full pointer-events-none z-[9998] mix-blend-difference"
         style={{ translateX: cursorX, translateY: cursorY }}
         animate={{
           scale: isHovered ? 2.5 : 1, // Expands on hover

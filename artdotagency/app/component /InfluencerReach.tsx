@@ -4,7 +4,6 @@ import { motion, useInView, useSpring, useTransform, useMotionValue } from "fram
 import { useRef, useState, useEffect } from "react";
 import { Instagram, Smartphone } from "lucide-react"; 
 
-// FIX: Define explicit interface for Artist to remove 'any' errors
 interface Artist {
   name: string;
   ig: string;
@@ -76,10 +75,9 @@ const RollingCounter = ({ value }: { value: number }) => {
   const springValue = useSpring(motionValue, {
     damping: 30,
     stiffness: 100,
-    duration: 2 // Long duration for dramatic effect
+    duration: 2 
   });
   
-  // FIX: Typed 'latest' to avoid implicit any error
   const displayValue = useTransform(springValue, (latest: number) => latest.toFixed(2));
 
   useEffect(() => {
@@ -95,12 +93,9 @@ const RollingCounter = ({ value }: { value: number }) => {
 // SUB-COMPONENT: Cinematic Artist Card
 // ------------------------------------------------------------------
 const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  // FIX: Typed the ref correctly
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
       videoRef.current.play();
@@ -108,7 +103,6 @@ const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     if (videoRef.current) {
       videoRef.current.pause();
     }
@@ -116,7 +110,6 @@ const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
 
   return (
     <motion.div
-      // ENTRANCE ANIMATION: Blur -> Focus + Slide Up
       initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-10%" }}
@@ -124,31 +117,26 @@ const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
       
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="group relative w-full h-[350px] bg-[#0F0F0F] border border-white/5 overflow-hidden cursor-none" // added cursor-none if you have custom cursor
+      className="group relative w-full h-[350px] bg-[#0F0F0F] border border-white/5 overflow-hidden cursor-none"
     >
       
-      {/* 1. IMAGE LAYER (Ken Burns Zoom Effect) */}
+      {/* 1. IMAGE LAYER */}
       <div className="absolute inset-0 overflow-hidden">
         <div 
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out will-change-transform"
+            // UPDATED: Removed JS scale logic. Now uses md:group-hover to only zoom on Desktop.
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out will-change-transform scale-100 md:group-hover:scale-110"
             style={{ 
                 backgroundImage: `url(${artist.image})`,
-                transform: isHovered ? "scale(1.1)" : "scale(1.0)" // Subtle zoom on hover
             }}
         />
         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
-        
-        {/* Cinematic Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
       </div>
 
-      {/* 2. VIDEO LAYER (Optional: Add <video> tag here if you have sources) */}
-      {/* <video ref={videoRef} ... className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" /> */}
-
-      {/* 3. INFO LAYER */}
+      {/* 2. INFO LAYER */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end z-20 pointer-events-none">
         
-        {/* Handle (Top Left) - Slide In */}
+        {/* Handle (Top Left) */}
         <div className="absolute top-4 left-4 overflow-hidden">
            <motion.div 
              initial={{ y: -20, opacity: 0 }}
@@ -162,15 +150,16 @@ const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
         </div>
 
         {/* Name & Stats Container */}
-        <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+        {/* UPDATED: translate-y-0 on mobile (static), md:translate-y-4 (slide) on desktop */}
+        <div className="transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 ease-out">
           
-          {/* Name */}
           <h3 className="font-kamerick text-2xl md:text-3xl font-bold text-white uppercase tracking-tight leading-none drop-shadow-md mb-2">
             {artist.name}
           </h3>
           
-          {/* Stats: Reveal on Hover */}
-          <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+          {/* Stats */}
+          {/* UPDATED: opacity-100 on mobile (visible), md:opacity-0 (hidden) on desktop */}
+          <div className="flex items-center gap-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 delay-75">
             <div className="flex items-center gap-1.5">
               <Instagram className="w-3 h-3 text-[#FFB800]" />
               <span className="font-kamerick text-sm font-bold text-white">{artist.ig}</span>
@@ -194,12 +183,8 @@ export default function InfluencerReach() {
     <section id="reach" className="relative w-full bg-[#050505] py-24 border-t border-white/5 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
         
-        {/* ------------------------------------------------------- */}
-        {/* 1. METRICS ROW (The "Odometer" Effect)                  */}
-        {/* ------------------------------------------------------- */}
+        {/* 1. METRICS ROW */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-white/10 pb-12 mb-16 gap-8">
-            
-            {/* Title Section */}
             <div className="flex flex-col gap-2">
                  <motion.span 
                     initial={{ opacity: 0, x: -20 }}
@@ -209,7 +194,6 @@ export default function InfluencerReach() {
                  >
                   The Network
                 </motion.span>
-                
                 <div className="overflow-hidden">
                     <motion.h2 
                         initial={{ y: "100%" }}
@@ -223,16 +207,13 @@ export default function InfluencerReach() {
                 </div>
             </div>
 
-            {/* Metrics: Rolling Counters */}
             <div className="flex gap-12 md:gap-24">
                 {metrics.map((metric, i) => (
                     <div key={i} className="flex flex-col">
                         <span className="font-kamerick text-4xl md:text-5xl font-bold text-white tracking-tighter flex items-baseline">
-                            {/* Animated Number */}
                             <RollingCounter value={metric.value} />
                             <span className="text-[#FFB800] text-2xl md:text-3xl ml-1">{metric.suffix}</span>
                         </span>
-                        
                         <motion.span 
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -247,9 +228,7 @@ export default function InfluencerReach() {
             </div>
         </div>
 
-        {/* ------------------------------------------------------- */}
-        {/* 2. CINEMATIC ARTIST GRID                                */}
-        {/* ------------------------------------------------------- */}
+        {/* 2. CINEMATIC ARTIST GRID */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {artists.map((artist, index) => (
             <div 

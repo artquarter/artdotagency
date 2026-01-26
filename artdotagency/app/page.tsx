@@ -17,6 +17,7 @@ import WhyPartner from "./component /WhyPartner";
 import Footer from "./component /Footer";
 import Preloader from "./component /Preloader";
 import Cursor from "./component /Cursor";
+import ContactBreak from "./component /ContactBreak";
 
 export default function Home() {
   // State to coordinate the sequence
@@ -41,6 +42,7 @@ export default function Home() {
         <ReachImpact />
         <MarketingExperience />
         <InfluencerReach />
+        <ContactBreak />
         <CaseStudies />
         <OurProcess />
         <CreativeServices />
