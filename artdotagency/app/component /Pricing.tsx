@@ -96,7 +96,7 @@ const hourlyOptions = [
 ];
 
 // ------------------------------------------------------------------
-// SUB-COMPONENT: Vertical Battery Meter (Restored)
+// SUB-COMPONENT: Vertical Battery Meter
 // ------------------------------------------------------------------
 const BatteryMeter = ({ level }: { level: number }) => (
   <div className="w-8 h-24 border border-white/20 rounded-sm p-1 relative mx-auto my-6">
@@ -158,7 +158,6 @@ export default function Pricing() {
     handleInteraction(e);
   };
 
-  // Add global event listeners for smooth dragging
   useEffect(() => {
     const handleMove = (e: MouseEvent | TouchEvent) => {
       if (!isDragging || !sliderRef.current) return;
@@ -185,6 +184,26 @@ export default function Pricing() {
     };
   }, [isDragging]);
 
+  // --------------------------------------------------------
+  // EMAIL HANDLERS (New Logic Added Here)
+  // --------------------------------------------------------
+
+  // 1. For Standard Packages
+  const handleStartProject = (pkg: any) => {
+    const subject = `Project Inquiry: ${pkg.title} Package`;
+    const body = `Hi Team,\n\nI am interested in starting a project with the ${pkg.title} package (${pkg.price}).\n\nPlease let me know the next steps.\n\nBest,`;
+    
+    window.location.href = `mailto:info@artdotagency.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  // 2. For Hourly Bookings (Uses Slider Time)
+  const handleBookHourly = (opt: any) => {
+    const selectedTime = formatTime(sliderValue); // Get current slider time
+    const subject = `Booking Request: ${opt.title} @ ${selectedTime}`;
+    const body = `Hi Team,\n\nI would like to book the ${opt.title} service (${opt.price}) for around ${selectedTime}.\n\nPlease confirm availability for this time slot.\n\nBest,`;
+    
+    window.location.href = `mailto:info@artdotagency.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
 
   return (
     <section id="pricing" className="relative w-full bg-[#050505] py-24 md:py-32 border-t border-white/5 overflow-hidden">
@@ -283,6 +302,8 @@ export default function Pricing() {
               </ul>
 
               <button 
+                // ADDED: onClick handler for Packages
+                onClick={() => handleStartProject(pkg)}
                 className={`w-full py-4 uppercase font-kamerick text-xs font-bold tracking-[0.2em] transition-all duration-300
                   ${pkg.isPopular 
                     ? "bg-[#FFB800] text-black hover:bg-white" 
@@ -340,7 +361,11 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <button className="w-full py-3 border border-white/10 text-white font-kamerick text-[10px] uppercase tracking-[0.2em] hover:border-[#FFB800] hover:text-[#FFB800] transition-colors mt-auto">
+                <button 
+                  // ADDED: onClick handler for Hourly Booking
+                  onClick={() => handleBookHourly(opt)}
+                  className="w-full py-3 border border-white/10 text-white font-kamerick text-[10px] uppercase tracking-[0.2em] hover:border-[#FFB800] hover:text-[#FFB800] transition-colors mt-auto"
+                >
                    Book {opt.type}
                 </button>
 
