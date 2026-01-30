@@ -9,6 +9,18 @@
   --color-brand-dark: #050505;
 }
 
+::selection {
+  background-color: #FFB800; /* Your Gold */
+  color: #000000;            /* Force Black Text for contrast */
+}
+
+/* For Firefox support */
+::-moz-selection {
+  background-color: #FFB800;
+  color: #000000;
+}
+
+
 /* Global Reset for that "Premium Dark" feel */
 body {
   @apply bg-brand-dark text-white font-sans antialiased;

@@ -193,7 +193,7 @@ export default function Pricing() {
     const subject = `Project Inquiry: ${pkg.title} Package`;
     const body = `Hi Team,\n\nI am interested in starting a project with the ${pkg.title} package (${pkg.price}).\n\nPlease let me know the next steps.\n\nBest,`;
     
-    window.location.href = `mailto:info@artdotagency.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(`mailto:Enquiry@artdotagency.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
   };
 
   // 2. For Hourly Bookings (Uses Slider Time)
@@ -202,7 +202,7 @@ export default function Pricing() {
     const subject = `Booking Request: ${opt.title} @ ${selectedTime}`;
     const body = `Hi Team,\n\nI would like to book the ${opt.title} service (${opt.price}) for around ${selectedTime}.\n\nPlease confirm availability for this time slot.\n\nBest,`;
     
-    window.location.href = `mailto:info@artdotagency.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(`mailto:Enquiry@artdotagency.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
   };
 
   return (

@@ -1,9 +1,27 @@
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { Instagram, Linkedin, Twitter, ArrowUpRight } from "lucide-react";
+import { Instagram, Facebook, ArrowUpRight } from "lucide-react"; // Added Facebook here
 import Link from "next/link";
 import { useRef, useState } from "react";
+
+// ------------------------------------------------------------------
+// CUSTOM ICON: TikTok (Not available in standard Lucide)
+// ------------------------------------------------------------------
+const Tiktok = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 // ------------------------------------------------------------------
 // SUB-COMPONENT: Magnetic Button (Socials)
@@ -13,14 +31,13 @@ const MagneticButton = ({ children, href }: { children: React.ReactNode; href: s
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouse = (e: React.MouseEvent) => {
-    // FIX: Safety check to ensure ref exists before accessing properties
     if (!ref.current) return;
 
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
     const middleX = clientX - (left + width / 2);
     const middleY = clientY - (top + height / 2);
-    setPosition({ x: middleX * 0.5, y: middleY * 0.5 }); // Magnetic strength
+    setPosition({ x: middleX * 0.5, y: middleY * 0.5 });
   };
 
   const reset = () => {
@@ -31,12 +48,13 @@ const MagneticButton = ({ children, href }: { children: React.ReactNode; href: s
     <motion.div
       style={{ position: "relative" }}
       animate={{ x: position.x, y: position.y }}
-      // FIX: Added 'as const' to "spring" to satisfy TypeScript strict mode
       transition={{ type: "spring" as const, stiffness: 150, damping: 15, mass: 0.1 }}
     >
       <Link
         href={href}
         ref={ref}
+        target="_blank" // Opens in new tab
+        rel="noopener noreferrer" // Security best practice for target="_blank"
         onMouseMove={handleMouse}
         onMouseLeave={reset}
         className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center text-white hover:bg-[#FFB800] hover:text-black hover:border-[#FFB800] transition-colors duration-300 group overflow-hidden relative"
@@ -89,7 +107,7 @@ export default function Footer() {
   }
 
   return (
-    <footer 
+    <footer
       className="relative w-full bg-[#050505] pt-32 pb-10 overflow-hidden border-t border-white/5 group"
       onMouseMove={handleMouseMove}
     >
@@ -142,10 +160,10 @@ export default function Footer() {
                <div className="w-1 h-1 bg-[#FFB800] rounded-full" /> Get in Touch
              </span>
              <a 
-               href="mailto:jordan.patel@artdotquarter.io" 
+               href="mailto:Enquiry@artdotagency.co.uk" 
                className="font-kamerick text-xl md:text-3xl font-bold text-white hover:text-[#FFB800] transition-colors group/link w-fit"
              >
-               jordan.patel@artdotquarter.io
+               Enquiry@artdotagency.co.uk
                <div className="h-[1px] w-0 bg-[#FFB800] group-hover/link:w-full transition-all duration-500" />
              </a>
           </div>
@@ -160,6 +178,7 @@ export default function Footer() {
                 <a 
                   href="https://www.artdotquarter.io/" 
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="font-kamerick text-lg md:text-xl font-bold text-white hover:text-[#FFB800] transition-colors flex items-center gap-2 mb-2 w-fit"
                 >
                   artdotquarter.io
@@ -179,9 +198,9 @@ export default function Footer() {
              </span>
              <div className="flex gap-4">
                {[
-                 { Icon: Instagram, href: "#" }, 
-                 { Icon: Linkedin, href: "#" }, 
-                 { Icon: Twitter, href: "#" }
+                 { Icon: Instagram, href: "https://www.instagram.com/artdotagency?igsh=a2x0dHp5cHZyZ212&utm_source=qr" }, 
+                 { Icon: Facebook, href: "https://www.facebook.com/profile.php?id=61578248177400" }, 
+                 { Icon: Tiktok, href: "https://www.tiktok.com/@artdotagency_?_r=1&_t=ZN-93VDwETKkrO" }
                ].map((item, i) => (
                  <MagneticButton key={i} href={item.href}>
                    <item.Icon className="w-4 h-4" />
@@ -211,7 +230,7 @@ export default function Footer() {
              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
              className="font-kamerick text-[#FFB800] text-[10px] uppercase tracking-widest hover:text-white transition-colors cursor-pointer relative z-10"
           >
-             Back to Top ↑
+              Back to Top ↑
           </motion.button>
         </div>
 

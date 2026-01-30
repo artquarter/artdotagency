@@ -50,7 +50,7 @@ export default function ContactBreak() {
           transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
         >
           <a 
-            href="mailto:jordan.patel@artdotquarter.io" 
+            href="mailto:Enquiry@artdotagency.co.uk" 
             // STYLE: Black button on White bg = Maximum Contrast
             className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#FFB800] text-black font-kamerick text-xs md:text-sm font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 overflow-hidden"
           >
