@@ -19,6 +19,7 @@ import Preloader from "./component /Preloader";
 import Cursor from "./component /Cursor";
 import ContactBreak from "./component /ContactBreak";
 import CulturePreview from "./component /CulturePreview";
+import BrandAd from "./component /BrandAd";
 
 export default function Home() {
   // State to coordinate the sequence, initialize from sessionStorage to avoid a synchronous setState inside an effect
@@ -63,6 +64,7 @@ export default function Home() {
         <WhyPartner />
         <Pricing />
         <Footer />
+        <BrandAd />
       </div>
       
     </main>
