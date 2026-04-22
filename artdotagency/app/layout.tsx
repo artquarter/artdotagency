@@ -23,21 +23,21 @@ export const metadata: Metadata = {
 
   title: {
     default: "Artdotagency | Strategic Creative Solutions",
-    template: "%s | Artdotagency", // Allows sub-pages to look like: "Work | Artdotagency"
+    template: "%s | Artdotagency", 
   },
   description: "Midlands based marketers & entrepreneurs elevating brands. We bridge the gap between brands and the generation that drives them.",
   
   keywords: ["Creative Agency", "Brand Strategy", "Gen Z Marketing", "Web Design", "Birmingham", "London", "Digital Culture"],
   
-  authors: [{ name: "Artdotagency Team" }],
-  creator: "Artdotagency",
-  publisher: "Artdotagency",
+  // Developer & Author Identification
+  authors: [{ name: "Artdotagency Team" }, { name: "Ashley Amaka John" }],
+  creator: "Ashley Amaka John",
+  publisher: "Nightburn Tech Services",
 
   // OPEN GRAPH (Facebook, LinkedIn, Discord, Slack)
-  // Note: We removed the 'images' array because Next.js automatically uses opengraph-image.tsx
   openGraph: {
     type: "website",
-    locale: "en_GB", // UK English
+    locale: "en_GB", 
     url: "https://www.artdotagency.io",
     title: "Artdotagency | Strategic Creative Solutions",
     description: "Strategic creative solutions bridging the gap between brands and culture.",
@@ -45,7 +45,6 @@ export const metadata: Metadata = {
   },
 
   // TWITTER / X
-  // Note: We removed the 'images' array here too
   twitter: {
     card: "summary_large_image",
     title: "Artdotagency | Strategic Creative Solutions",
@@ -76,7 +75,7 @@ export const metadata: Metadata = {
 
 // 3. VIEWPORT SETTINGS
 export const viewport: Viewport = {
-  themeColor: "#050505", // Matches your black background
+  themeColor: "#050505", 
   width: "device-width",
   initialScale: 1,
 };
@@ -86,14 +85,61 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  // --- JSON-LD SCHEMA ---
+  // Connects the Agency to you as the Developer for Google's Knowledge Graph
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Artdotagency",
+    "url": "https://www.artdotagency.io",
+    "author": {
+      "@type": "Person",
+      "name": "Ashley Amaka John",
+      "alternateName": ["Night", "Jinxx"],
+      "jobTitle": "Full-stack Software Engineer",
+      "brand": {
+        "@type": "Brand",
+        "name": "Nightburn Tech Services"
+      }
+    }
+  };
+
   return (
     <html lang="en">
+      <head>
+        {/* Hidden Developer Signature in HTML Source */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `/* Site Developed by Ashley Amaka John (Night) | Nightburn Tech Services */`,
+          }}
+        />
+
+        {/* Inject Schema for Search Engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${kamerick.variable} font-kamerick bg-black text-white antialiased overflow-x-hidden`}
       >
         <SmoothScroll>
           {children}
         </SmoothScroll>
+
+        {/* Developer Console Greeting */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              console.log(
+                "%c Crafted by Night %c Nightburn Tech Services ",
+                "color: white; background: #000; padding: 5px 10px; border-radius: 4px; font-weight: bold;",
+                "color: #888; background: transparent; font-weight: bold;"
+              );
+            `,
+          }}
+        />
       </body>
     </html>
   );
