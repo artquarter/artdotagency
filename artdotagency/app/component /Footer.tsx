@@ -68,7 +68,7 @@ const MagneticButton = ({ children, href }: { children: React.ReactNode; href: s
 // ------------------------------------------------------------------
 const SplitText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   return (
-    <h1 className="flex overflow-hidden font-kamerick text-6xl md:text-8xl lg:text-[10rem] font-bold text-white uppercase tracking-tighter leading-[0.85] select-none mix-blend-difference">
+    <h1 className="flex overflow-hidden font-kamerick text-5xl md:text-7xl lg:text-[8rem] font-bold text-white lowercase tracking-tighter leading-[0.85] select-none mix-blend-difference">
       {text.split("").map((char, i) => (
         <motion.span
           key={i}
@@ -102,20 +102,6 @@ export default function Footer() {
     mouseY.set(clientY - top);
   }
 
-  // Brand Data for Organized Connections
-  const lifestyleEcosystem = [
-    { name: "art.quarter", href: "https://www.artdotquarter.io/" },
-    { name: "art.barber", href: "https://www.artdotbarbers.io/" },
-    { name: "art.salon", href: "https://www.artdotsalon.com/" },
-    { name: "aqbodyandspa", href: "https://aqbodyandspa.co.uk/" },
-    { name: "aqfoodhall", href: "https://aqfoodhall.artdotquarter.io/" },
-  ];
-
-  const innovationPrograms = [
-    { name: "Creator Economy", href: "https://www.artdotquarter.io/creator-economy" },
-    { name: "Pilot Program", href: "https://www.artdotquarter.io/pilot-program" },
-  ];
-
   return (
     <footer
       className="relative w-full bg-[#050505] pt-32 pb-10 overflow-hidden border-t border-white/5 group"
@@ -135,7 +121,7 @@ export default function Footer() {
         }}
       />
 
-      <div className="container mx-auto px-6 md:px-12 flex flex-col justify-between min-h-[70vh]">
+      <div className="container mx-auto px-6 md:px-12 flex flex-col justify-between">
         
         {/* 2. TOP SECTION: BIG TYPOGRAPHY */}
         <div className="flex flex-col mb-24">
@@ -146,7 +132,7 @@ export default function Footer() {
             className="flex items-center gap-4 mb-8"
           >
             <div className="w-12 h-[1px] bg-[#FFB800]" />
-            <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] uppercase">
+            <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
               To Partner With Us
             </span>
           </motion.div>
@@ -162,52 +148,59 @@ export default function Footer() {
           
           {/* Column 1: Contact & Address */}
           <div className="md:col-span-4 flex flex-col gap-6">
-            <span className="font-kamerick text-gray-500 text-[10px] uppercase tracking-widest flex items-center gap-2">
+            <span className="font-kamerick text-gray-500 text-[10px] lowercase tracking-widest flex items-center gap-2">
               <div className="w-1 h-1 bg-[#FFB800] rounded-full" /> Inquiries
             </span>
             <a 
-              href="mailto:Enquiry@artdotagency.co.uk" 
+              href="mailto:jordan.patel@artdotquarter.io" 
               className="font-kamerick text-xl md:text-2xl font-bold text-white hover:text-[#FFB800] transition-colors group/link w-fit"
             >
-              Enquiry@artdotagency.co.uk
+              jordan.patel@artdotquarter.io
               <div className="h-[1px] w-0 bg-[#FFB800] group-hover/link:w-full transition-all duration-500" />
             </a>
-            <p className="font-kamerick text-gray-400 text-[10px] leading-relaxed uppercase tracking-[0.2em] mt-2">
+            <p className="font-kamerick text-gray-400 text-[10px] leading-relaxed lowercase tracking-[0.2em] mt-2">
               14-15 Allison Street, Birmingham <br /> United Kingdom
             </p>
           </div>
 
-          {/* Column 2: Lifestyle Ecosystem */}
+          {/* Column 2: Navigation */}
           <div className="md:col-span-3 flex flex-col gap-6">
-            <span className="font-kamerick text-gray-500 text-[10px]  tracking-widest flex items-center gap-2">
-              <div className="w-1 h-1 bg-[#FFB800] rounded-full" /> Ecosystem
+            <span className="font-kamerick text-gray-500 text-[10px] lowercase tracking-widest flex items-center gap-2">
+              <div className="w-1 h-1 bg-[#FFB800] rounded-full" /> Navigation
             </span>
             <nav className="flex flex-col gap-3">
-              {lifestyleEcosystem.map((link) => (
+              {[
+                { name: "Services", href: "/services" },
+                { name: "Work", href: "/#work" },
+                { name: "Insights", href: "/insights" },
+                { name: "About", href: "/about" },
+                { name: "How we work", href: "/how-we-work" },
+              ].map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href}
-                  target="_blank"
-                  className="font-kamerick text-[12px] text-gray-300 hover:text-[#FFB800] transition-colors lowercase tracking-widest flex items-center gap-2 group/nav"
+                  className="font-kamerick text-[12px] text-gray-300 hover:text-[#FFB800] transition-colors lowercase tracking-widest"
                 >
                   {link.name}
-                  <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/nav:opacity-100 transition-opacity" />
                 </Link>
               ))}
             </nav>
           </div>
 
-          {/* Column 3: Initiatives */}
+          {/* Column 3: Legal */}
           <div className="md:col-span-3 flex flex-col gap-6">
-            <span className="font-kamerick text-gray-500 text-[10px]  tracking-widest flex items-center gap-2">
-              <div className="w-1 h-1 bg-[#FFB800] rounded-full" /> Initiatives
+            <span className="font-kamerick text-gray-500 text-[10px] lowercase tracking-widest flex items-center gap-2">
+              <div className="w-1 h-1 bg-[#FFB800] rounded-full" /> Legal
             </span>
             <nav className="flex flex-col gap-3">
-              {innovationPrograms.map((link) => (
+              {[
+                { name: "Privacy", href: "/privacy" },
+                { name: "Cookies", href: "/cookies" },
+                { name: "Accessibility", href: "/accessibility" },
+              ].map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href}
-                  target="_blank"
                   className="font-kamerick text-[12px] text-gray-300 hover:text-[#FFB800] transition-colors lowercase tracking-widest"
                 >
                   {link.name}
@@ -218,7 +211,7 @@ export default function Footer() {
 
           {/* Column 4: Social Connectivity */}
           <div className="md:col-span-2 flex flex-col gap-6 md:items-end">
-            <span className="font-kamerick text-gray-500 text-[10px] uppercase tracking-widest">
+            <span className="font-kamerick text-gray-500 text-[10px] lowercase tracking-widest">
               Connectivity
             </span>
             <div className="flex gap-3">
@@ -242,12 +235,12 @@ export default function Footer() {
             whileInView={{ opacity: 1 }}
             className="font-kamerick text-white/45 text-[9px]  tracking-[0.3em]"
           >
-            © {new Date().getFullYear()} artdotagency —  art.quarter.
+            © {new Date().getFullYear()} artdotagency
           </motion.p>
           
           <button 
              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-             className="font-kamerick text-[#FFB800] text-[10px] uppercase tracking-widest hover:text-white transition-colors cursor-pointer"
+             className="font-kamerick text-[#FFB800] text-[10px] lowercase tracking-widest hover:text-white transition-colors cursor-pointer"
           >
              Back to Top ↑
           </button>

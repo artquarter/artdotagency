@@ -8,33 +8,18 @@ import { useRef } from "react";
 const benefits = [
   {
     icon: Users,
-    title: "Hard-to-Reach Audience",
-    desc: "Access to a hard-to-reach youth / Gen Z / BAME audience."
+    title: "Initial Review",
+    desc: "A short, focused piece of work to assess the landscape, identify opportunities and recommend next steps."
   },
   {
     icon: Eye,
-    title: "Guaranteed Visibility",
-    desc: "Guaranteed on-site footfall and high-impact visibility."
-  },
-  {
-    icon: Zap,
-    title: "Co-Created Activations",
-    desc: "Co-created brand activations across streetwear, salon, music, and food."
-  },
-  {
-    icon: Radio,
-    title: "Media Attention",
-    desc: "Hyper-local + national media attention for your brand."
-  },
-  {
-    icon: Video,
-    title: "Influencer Coverage",
-    desc: "Real-time influencer-led coverage during events."
+    title: "Defined Project",
+    desc: "A structured programme with clear deliverables, timelines and outcomes, managed from brief to completion."
   },
   {
     icon: TrendingUp,
-    title: "Viral Social Moments",
-    desc: "Viral social moments crafted specifically for Instagram & TikTok."
+    title: "Retained Support",
+    desc: "Ongoing partnership providing strategic advice, creative direction and implementation support as your organisation grows."
   }
 ];
 
@@ -94,7 +79,7 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
         </div>
         
         {/* Title: Slides right slightly */}
-        <h3 className="font-kamerick text-xl font-bold text-white uppercase tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">
+        <h3 className="font-kamerick text-xl font-bold text-white lowercase tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">
           {item.title}
         </h3>
         
@@ -125,8 +110,8 @@ export default function WhyPartner() {
             viewport={{ once: true }}
             className="flex items-center gap-4 mb-4"
           >
-             <span className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] uppercase">
-                07 — Value Proposition
+             <span className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] lowercase">
+                03 — Services
              </span>
           </motion.div>
 
@@ -135,9 +120,9 @@ export default function WhyPartner() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-kamerick text-4xl md:text-6xl font-bold text-white uppercase tracking-tight mb-4"
+            className="font-kamerick text-4xl md:text-6xl font-bold text-white lowercase tracking-tight mb-4"
           >
-            Why Partner <span className="text-[#FFB800]">With Us?</span>
+            Ways of <span className="text-[#FFB800]">Working</span>
           </motion.h2>
         </div>
 

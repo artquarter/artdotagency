@@ -5,15 +5,9 @@ import { useRef, useEffect, useState } from "react";
 
 // Data
 const stats = [
-  { label: "Cultural Events", value: "18", suffix: "+" },
-  { label: "Avg Influencer Reach", value: "500", suffix: "k" },
-  { label: "Attendees Ages 18-30", value: "70", suffix: "%" },
-  { label: "Influencer Engagements", value: "10", suffix: "M+" },
-  { label: "Interactions / Event", value: "300", suffix: "+" },
-  { label: "Total Footfall", value: "12", suffix: "k+" },
-  { label: "Social Video Views", value: "750", suffix: "k+" },
-  { label: "National Features", value: "10", suffix: "+" },
-  { label: "Sponsor Retention", value: "40", suffix: "%" },
+  { prefix: "£", label: "UKSPF capital grant awarded", value: "29496", suffix: ".60" },
+  { prefix: "", label: "recorded attendances", value: "3,771", suffix: "" },
+  { prefix: "", label: "training completions", value: "14", suffix: "" }
 ];
 
 // ------------------------------------------------------------------
@@ -105,17 +99,24 @@ const StatCard = ({ item, index }: { item: any; index: number }) => {
       {/* 3. CONTENT */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Animated Number */}
-        <h3 className="font-kamerick text-5xl md:text-7xl font-bold text-white mb-2 tracking-tighter">
+        <h3 className="font-kamerick text-4xl md:text-6xl font-bold text-white mb-2 tracking-tighter flex items-center justify-center">
+          {item.prefix && (
+            <span className="text-[#FFB800] text-3xl md:text-5xl align-top mr-1">
+              {item.prefix}
+            </span>
+          )}
           <span className="group-hover:text-[#FFB800] transition-colors duration-200 tabular-nums">
               <ChaosScramble value={item.value} trigger={isInView} />
           </span>
-          <span className="text-[#FFB800] text-3xl md:text-5xl align-top ml-1">
-            {item.suffix}
-          </span>
+          {item.suffix && (
+            <span className="text-[#FFB800] text-3xl md:text-5xl align-top ml-1">
+              {item.suffix}
+            </span>
+          )}
         </h3>
         
         {/* Label */}
-        <p className="font-kamerick text-gray-500 text-[10px] md:text-xs uppercase tracking-[0.2em] text-center group-hover:text-white transition-colors duration-300">
+        <p className="font-kamerick text-gray-500 text-[10px] md:text-xs lowercase tracking-[0.2em] text-center group-hover:text-white transition-colors duration-300">
           {item.label}
         </p>
       </div>
@@ -145,7 +146,7 @@ export default function ReachImpact() {
           className="flex items-center gap-4 mb-16 md:mb-24"
         >
           <div className="w-12 h-[1px] bg-[#FFB800]" />
-          <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] uppercase">
+          <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
             03 — Reach & Impact
           </span>
         </motion.div>
@@ -163,7 +164,7 @@ export default function ReachImpact() {
           whileInView={{ opacity: 1, letterSpacing: "0.2em" }} // "Cinematic Squeeze" effect
           viewport={{ once: true }}
           transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
-          className="font-kamerick text-center text-gray-500 text-[10px] uppercase mt-16 max-w-2xl mx-auto"
+          className="font-kamerick text-center text-gray-500 text-[10px] lowercase mt-16 max-w-2xl mx-auto"
         >
           Delivering real impressive results through data led strategies 
         </motion.p>

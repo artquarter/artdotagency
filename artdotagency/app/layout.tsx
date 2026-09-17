@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./component /SmoothScroll";
+import Navbar from "./component /Navbar";
 
 // 1. Configure Kamerick (The "Banging" Font)
 const kamerick = localFont({
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     default: "Artdotagency | Strategic Creative Solutions",
     template: "%s | Artdotagency", 
   },
-  description: "Midlands based marketers & entrepreneurs elevating brands. We bridge the gap between brands and the generation that drives them.",
+  description: "Strategy, creative and delivery. We develop brands, programmes and places.",
   
   keywords: ["Creative Agency", "Brand Strategy", "Gen Z Marketing", "Web Design", "Birmingham", "London", "Digital Culture"],
   
@@ -125,6 +126,7 @@ export default function RootLayout({
         className={`${kamerick.variable} font-kamerick bg-black text-white antialiased overflow-x-hidden`}
       >
         <SmoothScroll>
+          <Navbar />
           {children}
         </SmoothScroll>
 

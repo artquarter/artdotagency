@@ -6,33 +6,23 @@ import { useState } from "react";
 const steps = [
   {
     id: "01",
-    title: "Market Analysis & Positioning",
-    description: "In-depth research on UK consumer behaviour and retail trends to position YOYOSO's affordable lifestyle products effectively in the market."
+    title: "Discovery",
+    description: "We start by understanding your organisation, the challenges you face and the opportunities available. This involves research, stakeholder engagement and baseline assessment."
   },
   {
     id: "02",
-    title: "Brand & Localisation Strategy Adaptation",
-    description: "Refine YOYOSO's brand identity to resonate with UK consumers while maintaining its core values of trendy, quality products at accessible prices."
+    title: "Development",
+    description: "Working collaboratively, we build the strategy, design the programme or create the brand. We focus on practical, deliverable solutions that connect with your audience."
   },
   {
     id: "03",
-    title: "Omni-channel Marketing Campaign",
-    description: "Develop and execute a comprehensive marketing strategy across digital, social, and traditional media to build brand awareness and drive foot traffic to new stores."
+    title: "Review",
+    description: "We test our thinking, gather feedback and refine the approach. This ensures the proposed solutions are robust, viable and aligned with your objectives."
   },
   {
     id: "04",
-    title: "Influencer & Partnership Program",
-    description: "Create a network of UK-based influencers and strategic partners to amplify YOYOSO's brand message and product range."
-  },
-  {
-    id: "05",
-    title: "Localised Product Optimisation",
-    description: "Continue adapting YOYOSO's product mix to suit UK tastes and trends, focusing on popular categories like digital accessories, beauty, and home decor to strengthen customer lifetime value."
-  },
-  {
-    id: "06",
-    title: "Customer Experience Design",
-    description: "Craft an engaging in-store and online experience that showcases YOYOSO's diverse product range and encourages repeat visits and purchases."
+    title: "Handover",
+    description: "We support the transition to live delivery. Whether we are mobilising the project for you or handing over to your team, we ensure everything is in place for success."
   }
 ];
 
@@ -123,7 +113,7 @@ const ProcessCard = ({ step, index }: { step: any; index: number }) => {
       </div>
 
       {/* 4. TITLE (Cinema Effect) */}
-      <h3 className="font-kamerick text-xl font-bold text-white uppercase tracking-tight leading-snug min-h-[3rem] relative z-10">
+      <h3 className="font-kamerick text-xl font-bold text-white lowercase tracking-tight leading-snug min-h-[3rem] relative z-10">
         <CinemaText text={step.title} isHovered={isHovered} />
       </h3>
 
@@ -155,11 +145,11 @@ export default function OurProcess() {
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="w-12 h-[1px] bg-[#FFB800]" />
-              <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] uppercase">
+              <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
                 05 — Methodology
               </span>
             </div>
-            <h2 className="font-kamerick text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">
+            <h2 className="font-kamerick text-3xl md:text-5xl font-bold text-white lowercase tracking-tight">
               Our <span className="text-[#FFB800]">Process</span>
             </h2>
           </motion.div>
@@ -169,14 +159,14 @@ export default function OurProcess() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="font-kamerick text-gray-500 text-xs md:text-sm uppercase tracking-widest max-w-xs text-right hidden md:block"
+            className="font-kamerick text-gray-500 text-xs md:text-sm lowercase tracking-widest max-w-xs text-right hidden md:block"
           >
             A strategic framework for scalable growth.
           </motion.p>
         </div>
 
-        {/* 3-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* 2-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {steps.map((step, index) => (
             <ProcessCard key={step.id} step={step} index={index} />
           ))}

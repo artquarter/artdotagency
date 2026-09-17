@@ -60,7 +60,7 @@ export default function AboutMission() {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-  const paragraphStyle = "font-kamerick text-sm md:text-lg font-medium uppercase leading-[1.8] tracking-widest text-gray-200";
+  const paragraphStyle = "font-kamerick text-sm md:text-lg font-medium lowercase leading-[1.8] tracking-widest text-gray-200";
 
   return (
     <section 
@@ -87,14 +87,14 @@ export default function AboutMission() {
             className="flex items-center gap-4"
           >
             <div className="w-12 h-[1px] bg-[#FFB800]" />
-            <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] uppercase">
+            <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
               01 — Who We Are
             </span>
           </motion.div>
 
           {/* Main Statement */}
           <MaskedReveal 
-            text="We are a team of Midlands based marketers & entrepreneurs with a combined experience of over 50 years elevating brands from a concept to a prolific name delivering real impressive results."
+            text="We help organisations develop ideas, build distinctive brands and deliver projects that connect with people. Our work brings together strategy, funding development, creative production, programmes and mobilisation, from the first brief through to launch and delivery."
             className={paragraphStyle}
           />
 
@@ -104,9 +104,9 @@ export default function AboutMission() {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
             viewport={{ once: true }}
-            className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] uppercase mt-2"
+            className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] lowercase mt-2"
           >
-            Part of our <span className="text-white">art.quarter</span> ecosystem
+            Part of our <span className="text-white">Art Quarter</span> ecosystem
           </motion.p>
         </div>
 
@@ -119,8 +119,8 @@ export default function AboutMission() {
             viewport={{ once: true }}
             className="flex items-center gap-4 justify-end"
           >
-            <span className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] uppercase">
-              02 — Our Mission
+            <span className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] lowercase">
+              02 — Our Experience
             </span>
             <div className="w-12 h-[1px] bg-gray-700" />
           </motion.div>
@@ -128,7 +128,7 @@ export default function AboutMission() {
           {/* Mission Text */}
           <div className="flex justify-end">
             <MaskedReveal 
-              text="We craft strategic, creative solutions that combine smart ideas with stunning, functional design. By obsessing over the details, we inspire action and deliver measurable results, empowering brands to thrive in a dynamic, ever-evolving marketplace."
+              text="Our experience has grown through Art Quarter, where brands, food, personal services, training and community events have been developed in a working environment. We bring that practical perspective to the organisations we work with."
               className={`${paragraphStyle} justify-end text-right`} 
               delay={2} 
             />

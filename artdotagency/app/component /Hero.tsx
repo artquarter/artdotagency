@@ -61,7 +61,7 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
       <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center gap-6 -mt-24 md:mt-0">
         
         {/* 1. THE HEADLINE (The Challenge) */}
-        <h1 className="font-kamerick text-4xl md:text-7xl font-bold leading-[1.0] tracking-tight text-white max-w-5xl flex flex-col items-center">
+        <h1 className="font-kamerick text-3xl md:text-5xl font-bold leading-[1.0] tracking-tight text-white max-w-5xl flex flex-col items-center">
           
           <div className="overflow-hidden">
             <motion.span 
@@ -69,9 +69,9 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
               initial="hidden" 
               animate={startAnimation ? "visible" : "hidden"}
               transition={{ delay: 0.1 }} 
-              className="block"
+              className="block lowercase"
             >
-              Culture moves faster
+              strategy, creative
             </motion.span>
           </div>
           
@@ -81,9 +81,9 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
                initial="hidden" 
                animate={startAnimation ? "visible" : "hidden"}
                transition={{ delay: 0.2 }} 
-               className="block"
+               className="block lowercase"
              >
-               than your <span className="text-[#FFB800]">strategy.</span>
+               and <span className="text-[#FFB800]">delivery.</span>
              </motion.span>
           </div>
           
@@ -98,8 +98,8 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
             transition={{ delay: 0.3 }}
             className="overflow-hidden"
         >
-            <p className="font-kamerick text-gray-400 text-xs md:text-sm uppercase tracking-widest max-w-lg leading-relaxed">
-                We bridge the gap between brands and the <br className="hidden md:block"/> generation that drives them. No fluff. Just impact.
+            <p className="font-kamerick text-gray-400 text-xs md:text-sm lowercase tracking-widest max-w-lg leading-relaxed mt-4">
+                we develop brands, programmes and places.
             </p>
         </motion.div>
 
@@ -112,10 +112,10 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
           className="mt-4"
         >
           <Link 
-            href="#pricing"
-            className="group relative inline-flex items-center gap-3 px-8 py-3 bg-white text-black text-xs font-bold font-kamerick uppercase tracking-widest rounded-full overflow-hidden transition-all hover:bg-[#FFB800] hover:text-black"
+            href="/contact"
+            className="group relative inline-flex items-center gap-3 px-8 py-3 bg-white text-black text-xs font-bold font-kamerick lowercase tracking-widest rounded-full overflow-hidden transition-all hover:bg-[#FFB800] hover:text-black"
           >
-            <span className="relative z-10">Start a Project</span>
+            <span className="relative z-10">Discuss a project</span>
             <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
           </Link>
         </motion.div>
@@ -131,21 +131,15 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
         <div className="container mx-auto px-6 md:px-8">
           <div className="w-full h-[1px] bg-white/10 mb-6" />
           <div className="flex flex-col md:flex-row justify-between items-end">
-            <p className="hidden md:block text-[10px] text-gray-500 uppercase tracking-[0.2em] font-kamerick mb-2">
+            <p className="hidden md:block text-[10px] text-gray-500 lowercase tracking-[0.2em] font-kamerick mb-2">
               ( Scroll to Explore )
             </p>
-            <div className="w-full md:w-auto grid grid-cols-2 md:flex md:gap-12 gap-x-4 gap-y-4 text-xs font-bold tracking-widest uppercase text-gray-400">
-              {navItems.map((item) => (
-                <Link 
-                  key={item.id} 
-                  href={item.href} 
-                  className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"
-                >
-                  <span className="text-[#FFB800] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 hidden md:inline-block">•</span>
-                  <span className="opacity-50 group-hover:opacity-100 transition-opacity font-mono">{item.id}</span>
-                  <span>{item.label}</span>
-                </Link>
-              ))}
+            <div className="w-full md:w-auto grid grid-cols-2 md:flex md:gap-12 gap-x-4 gap-y-4 text-xs font-bold tracking-widest lowercase text-gray-400">
+              <Link href="/services" className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"><span className="opacity-50 group-hover:opacity-100 transition-opacity font-mono">01</span><span>Services</span></Link>
+              <Link href="/work" className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"><span className="opacity-50 group-hover:opacity-100 transition-opacity font-mono">02</span><span>Work</span></Link>
+              <Link href="/insights" className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"><span className="opacity-50 group-hover:opacity-100 transition-opacity font-mono">03</span><span>Insights</span></Link>
+              <Link href="/about" className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"><span className="opacity-50 group-hover:opacity-100 transition-opacity font-mono">04</span><span>About</span></Link>
+              <Link href="/how-we-work" className="group flex items-center gap-3 hover:text-[#FFB800] transition-colors"><span className="opacity-50 group-hover:opacity-100 transition-opacity font-mono">05</span><span>How we work</span></Link>
             </div>
           </div>
         </div>

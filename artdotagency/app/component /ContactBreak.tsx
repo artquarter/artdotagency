@@ -25,7 +25,7 @@ export default function ContactBreak() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           // SIZE: Reduced to text-3xl / 5xl (Was 7xl)
-          className="font-kamerick text-3xl md:text-5xl font-bold text-black uppercase tracking-tighter mb-4 leading-[1.1]"
+          className="font-kamerick text-3xl md:text-5xl font-bold text-black lowercase tracking-tighter mb-4 leading-[1.1]"
         >
           Seen Enough?
         </motion.h2>
@@ -36,7 +36,7 @@ export default function ContactBreak() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="font-kamerick text-black/60 text-xs md:text-sm uppercase tracking-widest max-w-md mx-auto mb-8"
+          className="font-kamerick text-black/60 text-xs md:text-sm lowercase tracking-widest max-w-md mx-auto mb-8"
         >
           You’ve seen the numbers. You’ve seen the reach. <br/>
           Now stop watching and start dominating.
@@ -50,11 +50,11 @@ export default function ContactBreak() {
           transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
         >
           <a 
-            href="mailto:Enquiry@artdotagency.co.uk" 
+            href="/contact" 
             // STYLE: Black button on White bg = Maximum Contrast
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#FFB800] text-black font-kamerick text-xs md:text-sm font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 overflow-hidden"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#FFB800] text-black font-kamerick text-xs md:text-sm font-bold lowercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 overflow-hidden"
           >
-            <span className="relative z-10">Start a Project</span>
+            <span className="relative z-10">Discuss a project</span>
             <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
             
             {/* Hover Fill - Slides in Gold */}

@@ -7,10 +7,8 @@ import AboutMission from "./component /AboutMission";
 import CaseStudies from "./component /CaseStudies";
 import CreativeServices from "./component /CreativeServices";
 import Hero from "./component /Hero";
-import InfluencerReach from "./component /InfluencerReach";
 import MarketingExperience from "./component /MarketingExperience";
 import OurProcess from "./component /OurProcess";
-import Pricing from "./component /Pricing";
 import ReachImpact from "./component /ReachImpact";
 import Services from "./component /Services";
 import WhyPartner from "./component /WhyPartner";
@@ -19,7 +17,6 @@ import Preloader from "./component /Preloader";
 import Cursor from "./component /Cursor";
 import ContactBreak from "./component /ContactBreak";
 import CulturePreview from "./component /CulturePreview";
-import BrandAd from "./component /BrandAd";
 
 export default function Home() {
   // State to coordinate the sequence, initialize from sessionStorage to avoid a synchronous setState inside an effect
@@ -55,16 +52,13 @@ export default function Home() {
         <Services />
         <ReachImpact />
         <MarketingExperience />
-        <InfluencerReach />
         <ContactBreak />
         <CaseStudies />
         <CulturePreview />
         <OurProcess />
         <CreativeServices />
         <WhyPartner />
-        <Pricing />
         <Footer />
-        <BrandAd />
       </div>
       
     </main>

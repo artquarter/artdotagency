@@ -143,7 +143,7 @@ const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
              whileInView={{ y: 0, opacity: 1 }}
              transition={{ delay: 0.5 + (index * 0.1) }}
            >
-                <span className="px-2 py-1 bg-black/60 backdrop-blur-sm text-white text-[9px] font-kamerick uppercase tracking-widest border border-white/10 rounded-sm">
+                <span className="px-2 py-1 bg-black/60 backdrop-blur-sm text-white text-[9px] font-kamerick lowercase tracking-widest border border-white/10 rounded-sm">
                 {artist.handle}
                 </span>
            </motion.div>
@@ -153,7 +153,7 @@ const ArtistCard = ({ artist, index }: { artist: Artist, index: number }) => {
         {/* UPDATED: translate-y-0 on mobile (static), md:translate-y-4 (slide) on desktop */}
         <div className="transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500 ease-out">
           
-          <h3 className="font-kamerick text-2xl md:text-3xl font-bold text-white uppercase tracking-tight leading-none drop-shadow-md mb-2">
+          <h3 className="font-kamerick text-2xl md:text-3xl font-bold text-white lowercase tracking-tight leading-none drop-shadow-md mb-2">
             {artist.name}
           </h3>
           
@@ -190,7 +190,7 @@ export default function InfluencerReach() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] uppercase"
+                    className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] lowercase"
                  >
                   The Network
                 </motion.span>
@@ -200,7 +200,7 @@ export default function InfluencerReach() {
                         whileInView={{ y: "0%" }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-                        className="font-kamerick text-3xl md:text-4xl font-bold text-white uppercase tracking-tight"
+                        className="font-kamerick text-3xl md:text-4xl font-bold text-white lowercase tracking-tight"
                     >
                         Renowned <br /> Artists
                     </motion.h2>
@@ -219,7 +219,7 @@ export default function InfluencerReach() {
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.5 + (i * 0.2) }}
-                            className="font-kamerick text-gray-500 text-[10px] uppercase tracking-widest mt-1"
+                            className="font-kamerick text-gray-500 text-[10px] lowercase tracking-widest mt-1"
                         >
                             {metric.label}
                         </motion.span>

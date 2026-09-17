@@ -5,13 +5,13 @@ import { useRef } from "react";
 
 // Data
 const services = [
-  "Immersive Set Design",
-  "Creative Campaigns",
-  "Street Culture Consulting",
-  "Brand Community Interfacing",
-  "Event Production",
-  "Influencer Partnerships",
-  "Youth Co-creation Panels"
+  "Strategy and advisory",
+  "Funding and bids",
+  "Brands and places",
+  "Mobilisation and delivery",
+  "Events and experiences",
+  "Programmes and training",
+  "Marketing and content"
 ];
 
 // ------------------------------------------------------------------
@@ -40,7 +40,7 @@ const ServiceItem = ({ service, index }: { service: string; index: number }) => 
           initial={{ y: "100%" }}
           animate={isInView ? { y: "0%" } : {}}
           transition={{ duration: 0.5, delay: index * 0.05, ease: [0.76, 0, 0.24, 1] }}
-          className="font-kamerick text-xl md:text-4xl font-bold text-white group-hover:text-white group-hover:pl-6 transition-all duration-300 uppercase tracking-tight"
+          className="font-kamerick text-xl md:text-4xl font-bold text-white group-hover:text-white group-hover:pl-6 transition-all duration-300 lowercase tracking-tight"
         >
           {service}
         </motion.h3>
@@ -50,7 +50,7 @@ const ServiceItem = ({ service, index }: { service: string; index: number }) => 
   );
 };
 
-export default function CreativeServices() {
+export default function CreativeServices({ hideHeader = false }: { hideHeader?: boolean }) {
   return (
     <section className="relative w-full bg-[#050505] py-24 md:py-32 border-t border-white/5 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
@@ -58,7 +58,8 @@ export default function CreativeServices() {
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
           
           {/* Left: Title & Context */}
-          <motion.div 
+          {!hideHeader && (
+            <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -67,22 +68,23 @@ export default function CreativeServices() {
           >
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-[1px] bg-[#FFB800]" />
-              <span className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] uppercase">
+              <span className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] lowercase">
                 06 — Services
               </span>
             </div>
             
-            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-white uppercase tracking-tight mb-8 leading-[0.9]">
+            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-white lowercase tracking-tight mb-8 leading-[0.9]">
               Creative <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-yellow-600">Services</span>
             </h2>
             
-            <p className="font-kamerick text-gray-400 text-sm leading-relaxed uppercase tracking-widest max-w-sm border-l border-white/10 pl-6">
+            <p className="font-kamerick text-gray-400 text-sm leading-relaxed lowercase tracking-widest max-w-sm border-l border-white/10 pl-6">
               Bespoke solutions bridging the gap between brands and culture.
             </p>
-          </motion.div>
+            </motion.div>
+          )}
 
           {/* Right: The List (Clean) */}
-          <div className="lg:w-2/3 flex flex-col">
+          <div className={`flex flex-col ${hideHeader ? 'w-full' : 'lg:w-2/3'}`}>
             {services.map((service, index) => (
               <ServiceItem key={index} service={service} index={index} />
             ))}

@@ -6,41 +6,18 @@ import { useState } from "react";
 const services = [
   {
     id: "01",
-    title: "STRATEGY",
+    title: "ADVISORY",
     items: [
-      "Strategy Data",
-      "Analytics",
-      "Discovery & Research",
-      "User Experience",
-      "Brand Strategy",
-      "Marketing Campaigns",
+      "Strategic guidance for projects and programmes."
     ],
   },
   {
     id: "02",
-    title: "CONTENT",
+    title: "CREATIVE",
     items: [
-      "Content Creation",
-      "Website Design & Development",
-      "Custom Content Management",
-      "Brand Style Guides",
-      "Rebranding",
+      "Design, branding and content development."
     ],
-  },
-  {
-    id: "03",
-    title: "PROMOTION",
-    items: [
-      "Brand Development",
-      "Digital Marketing",
-      "SEO",
-      "Media Planning & Buying",
-      "Public Relations",
-      "Events",
-      "Partnerships",
-      "Retail",
-    ],
-  },
+  }
 ];
 
 // ------------------------------------------------------------------
@@ -139,7 +116,7 @@ function ServiceCard({ service, index }: { service: any; index: number }) {
               className="flex items-baseline gap-3"
             >
               <span className="w-1.5 h-1.5 bg-[#FFB800] mt-1.5 flex-shrink-0 group-hover:shadow-[0_0_8px_#FFB800] transition-shadow duration-300" />
-              <span className="font-kamerick text-sm md:text-base font-medium text-gray-200 group-hover:text-white uppercase tracking-wide leading-relaxed transition-colors duration-300">
+              <span className="font-kamerick text-sm md:text-base font-medium text-gray-200 group-hover:text-white lowercase tracking-wide leading-relaxed transition-colors duration-300">
                 {item}
               </span>
             </motion.li>
@@ -168,13 +145,13 @@ export default function Services() {
           className="flex items-center gap-4 mb-16 md:mb-24"
         >
           <div className="w-12 h-[1px] bg-[#FFB800]" />
-          <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] uppercase">
+          <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
             02 — Capabilities
           </span>
         </motion.div>
 
-        {/* 3-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        {/* 2-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {services.map((service, index) => (
             <ServiceCard key={service.id} service={service} index={index} />
           ))}
