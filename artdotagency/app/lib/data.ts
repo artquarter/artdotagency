@@ -31,12 +31,7 @@ export const caseStudies: CaseStudy[] = [
     category: "SCCB partnership, WMCA support, 14 completions",
     image: "/images/content-creator.jpg"
   },
-  {
-    slug: "cultural-development",
-    client: "Cultural and community development",
-    category: "Coventry City Council commission",
-    image: "/images/coventry.jpg"
-  },
+
   {
     slug: "art-barbers",
     client: "Art Barbers",
