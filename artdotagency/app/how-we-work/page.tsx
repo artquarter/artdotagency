@@ -7,17 +7,25 @@ import Footer from "../component /Footer";
 export default function HowWeWorkPage() {
   const models = [
     {
-      title: "Initial Review",
-      description: "A focused starting point to clarify the opportunity, identify gaps and agree the next steps. An agreed assessment and action paper. Scope and fee are confirmed before work begins."
+      title: "Review",
+      description: "A focused assessment with recommendations and a prioritised action plan."
     },
     {
-      title: "Defined Project",
-      description: "A fixed scope for a strategy, bid, brand, programme, campaign or mobilisation phase. A defined brief, deliverables and timetable with a written fee proposal."
+      title: "Project",
+      description: "An agreed piece of work with defined deliverables, responsibilities, timetable and fee."
     },
     {
-      title: "Retained Support",
-      description: "Ongoing strategic or creative support with agreed priorities and capacity. An agreed team, priorities and monthly capacity, quoted to scope."
+      title: "Retained",
+      description: "Ongoing support with agreed priorities, monthly capacity and review arrangements."
     }
+  ];
+
+  const processSteps = [
+    { title: "Initial brief", desc: "Understanding the problem, context, and desired outcomes." },
+    { title: "Commercials agreed", desc: "Clear agreement on scope, team, outputs, and fees." },
+    { title: "Planning", desc: "Developing the strategy, timeline, and required resources." },
+    { title: "Mobilisation", desc: "Preparing teams, partners, and operations for execution." },
+    { title: "Launch & Reporting", desc: "Executing the plan and reporting on evidenced results." }
   ];
 
   return (
@@ -31,9 +39,6 @@ export default function HowWeWorkPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-20 border-b border-white/10 pb-12"
         >
-          <span className="text-[#FFB800] text-xs md:text-sm tracking-[0.2em] lowercase font-kamerick block mb-4">
-            Methodology
-          </span>
           <h1 className="text-4xl md:text-6xl font-bold lowercase tracking-tighter font-kamerick max-w-4xl mb-8">
             Three ways to work with Artdot
           </h1>
@@ -43,7 +48,7 @@ export default function HowWeWorkPage() {
         </motion.div>
 
         {/* 3 Models Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
           {models.map((model, index) => (
             <motion.div 
               key={index}
@@ -53,9 +58,6 @@ export default function HowWeWorkPage() {
               transition={{ delay: index * 0.1 }}
               className="bg-[#0F0F0F] border border-white/5 p-8 md:p-12 hover:border-[#FFB800]/30 transition-colors group"
             >
-              <div className="text-[#FFB800] font-kamerick text-4xl font-bold opacity-50 mb-6 group-hover:opacity-100 transition-opacity">
-                0{index + 1}
-              </div>
               <h3 className="font-kamerick text-2xl font-bold lowercase mb-4 text-white">
                 {model.title}
               </h3>
@@ -64,6 +66,35 @@ export default function HowWeWorkPage() {
               </p>
             </motion.div>
           ))}
+        </div>
+
+        {/* Delivery Process */}
+        <div className="mb-20">
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-3xl font-bold font-kamerick lowercase mb-12"
+          >
+            Delivery <span className="text-[#FFB800]">process</span>
+          </motion.h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {processSteps.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-[#0A0A0A] border-t-2 border-[#FFB800] p-6"
+              >
+                <div className="text-[#FFB800] font-kamerick text-sm font-bold mb-4">0{index + 1}</div>
+                <h3 className="font-kamerick text-lg font-bold lowercase text-white mb-2">{step.title}</h3>
+                <p className="font-kamerick text-gray-400 text-xs leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
       </div>

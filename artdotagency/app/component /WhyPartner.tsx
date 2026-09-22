@@ -1,25 +1,25 @@
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue, useInView } from "framer-motion";
-import { Users, Eye, Zap, Radio, Video, TrendingUp } from "lucide-react";
+import { Users, Eye, TrendingUp } from "lucide-react";
 import { useRef } from "react";
 
 // Data
 const benefits = [
   {
-    icon: Users,
-    title: "Initial Review",
-    desc: "A short, focused piece of work to assess the landscape, identify opportunities and recommend next steps."
+    icon: Eye,
+    title: "Review",
+    desc: "A focused assessment with recommendations and a prioritised action plan."
   },
   {
-    icon: Eye,
-    title: "Defined Project",
-    desc: "A structured programme with clear deliverables, timelines and outcomes, managed from brief to completion."
+    icon: Users,
+    title: "Project",
+    desc: "An agreed piece of work with defined deliverables, responsibilities, timetable and fee."
   },
   {
     icon: TrendingUp,
-    title: "Retained Support",
-    desc: "Ongoing partnership providing strategic advice, creative direction and implementation support as your organisation grows."
+    title: "Retained",
+    desc: "Ongoing support with agreed priorities, monthly capacity and review arrangements."
   }
 ];
 
@@ -47,13 +47,13 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
       transition={{ 
         duration: 0.5, 
         delay: index * 0.1, 
-        ease: [0.25, 0.46, 0.45, 0.94] // Fast "Punchy" Ease
+        ease: [0.25, 0.46, 0.45, 0.94]
       }}
       onMouseMove={handleMouseMove}
       className="group relative bg-[#0F0F0F] border border-white/5 p-8 overflow-hidden"
     >
       
-      {/* 1. SPOTLIGHT EFFECT (Follows Mouse) */}
+      {/* 1. SPOTLIGHT EFFECT */}
       <motion.div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 mix-blend-screen"
         style={{
@@ -67,18 +67,18 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
         }}
       />
 
-      {/* 2. FLASH EFFECT (White flash on hover) */}
+      {/* 2. FLASH EFFECT */}
       <div className="absolute inset-0 bg-white mix-blend-overlay opacity-0 group-hover:animate-flash pointer-events-none z-10" />
 
       {/* 3. CONTENT */}
       <div className="relative z-20">
         
-        {/* Icon: Glows on hover */}
+        {/* Icon */}
         <div className="w-12 h-12 bg-white/5 border border-white/5 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#FFB800] group-hover:border-[#FFB800] group-hover:bg-[#FFB800]/10 transition-all duration-300">
           <item.icon className="w-5 h-5" />
         </div>
         
-        {/* Title: Slides right slightly */}
+        {/* Title */}
         <h3 className="font-kamerick text-xl font-bold text-white lowercase tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">
           {item.title}
         </h3>
@@ -103,18 +103,7 @@ export default function WhyPartner() {
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
-        <div className="text-center mb-20 flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center gap-4 mb-4"
-          >
-             <span className="font-kamerick text-[#FFB800] text-[10px] tracking-[0.2em] lowercase">
-                03 — Services
-             </span>
-          </motion.div>
-
+        <div className="text-center mb-16 flex flex-col items-center">
           <motion.h2 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -122,12 +111,21 @@ export default function WhyPartner() {
             transition={{ duration: 0.6 }}
             className="font-kamerick text-4xl md:text-6xl font-bold text-white lowercase tracking-tight mb-4"
           >
-            Ways of <span className="text-[#FFB800]">Working</span>
+            Ways of <span className="text-[#FFB800]">working</span>
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="font-kamerick text-gray-400 text-sm max-w-lg mx-auto"
+          >
+            We agree the scope, team, outputs and fees before work begins.
+          </motion.p>
         </div>
 
-        {/* 3x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        {/* 3x1 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
           {benefits.map((item, index) => (
             <BenefitCard key={index} item={item} index={index} />
           ))}
@@ -135,7 +133,6 @@ export default function WhyPartner() {
 
       </div>
 
-      {/* Global CSS for Flash Animation */}
       <style jsx global>{`
         @keyframes flash {
           0% { opacity: 0; }

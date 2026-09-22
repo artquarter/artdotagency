@@ -99,7 +99,8 @@ export default function Hero({ startAnimation }: { startAnimation: boolean }) {
             className="overflow-hidden"
         >
             <p className="font-kamerick text-gray-400 text-xs md:text-sm lowercase tracking-widest max-w-lg leading-relaxed mt-4">
-                we develop brands, programmes and places.
+                we develop brands, programmes and places.<br/><br/>
+                we build distinctive brands, engaging programmes, and automated digital operations that simplify your administration.
             </p>
         </motion.div>
 

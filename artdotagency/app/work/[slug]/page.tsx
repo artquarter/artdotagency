@@ -4,10 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Footer from "../../component /Footer";
 
-// 1. Make the component async
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
-  
-  // 2. Await the params before using them
   const { slug } = await params; 
   
   const project = caseStudies.find((p) => p.slug === slug);
@@ -23,11 +20,11 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           href="/#work" 
           className="inline-flex items-center gap-2 text-gray-400 hover:text-[#FFB800] transition-colors mb-12 text-sm lowercase tracking-widest font-kamerick"
         >
-          <ArrowLeft className="w-4 h-4" /> Back to Work
+          <ArrowLeft className="w-4 h-4" /> back to work
         </Link>
 
         {/* HERO HEADER */}
-        <div className="flex flex-col gap-6 mb-20 border-b border-white/10 pb-12">
+        <div className="flex flex-col gap-6 mb-12 border-b border-white/10 pb-12">
           <span className="text-[#FFB800] text-xs md:text-sm tracking-[0.2em] lowercase font-kamerick">
             {project.category}
           </span>
@@ -36,13 +33,36 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </h1>
         </div>
 
+        {/* MEDIA BLOCK */}
+        {project.video ? (
+          <div className="w-full mb-20 overflow-hidden bg-[#0F0F0F] border border-white/5 relative aspect-video">
+            <video 
+              src={project.video} 
+              autoPlay 
+              muted 
+              loop 
+              playsInline
+              controls
+              className="w-full h-full object-cover opacity-80"
+            />
+          </div>
+        ) : project.image ? (
+          <div className="w-full mb-20 overflow-hidden bg-[#0F0F0F] border border-white/5 relative aspect-video">
+            <img 
+              src={project.image} 
+              alt={project.client}
+              className="w-full h-full object-cover opacity-60"
+            />
+          </div>
+        ) : null}
+
         {/* MAIN CONTENT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           
           {/* Left Column: Stats */}
           <div className="lg:col-span-4 flex flex-col gap-8">
             <div className="bg-[#0F0F0F] border border-white/5 p-8">
-              <h3 className="text-sm text-gray-500 lowercase tracking-widest mb-6 font-kamerick">Key Results</h3>
+              <h3 className="text-sm text-gray-500 lowercase tracking-widest mb-6 font-kamerick">key results</h3>
               <div className="flex flex-col gap-8">
                 {project.stats?.map((stat: any, i: number) => (
                   <div key={i}>
@@ -58,38 +78,63 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </div>
 
           {/* Right Column: The Story */}
-          <div className="lg:col-span-8 flex flex-col gap-16">
+          <div className="lg:col-span-8 flex flex-col gap-12">
             
-            {/* Story */}
+            {/* The Brief */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">The Story</h3>
+              <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">the brief</h3>
               <p className="text-xl md:text-2xl text-gray-200 leading-relaxed font-kamerick">
-                {project.content?.story || "Detailed case study currently being updated."}
+                {project.content?.brief || "Detailed case study currently being updated."}
               </p>
             </div>
 
-            {/* Goal & Solution */}
+            {/* In-content Image if video is at top */}
+            {project.video && project.image && (
+              <div className="w-full overflow-hidden bg-[#0F0F0F] border border-white/5 relative aspect-video">
+                <img 
+                  src={project.image} 
+                  alt={`${project.client} in action`}
+                  className="w-full h-full object-cover opacity-60"
+                />
+              </div>
+            )}
+
+            {/* Role & Delivery */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="flex flex-col gap-4">
-                <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">The Goal</h3>
+                <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">our role</h3>
                 <p className="text-white leading-relaxed font-kamerick text-sm md:text-base">
-                  {project.content?.goal || "-"}
+                  {project.content?.ourRole || "-"}
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">The Solution</h3>
+                <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">work delivered</h3>
                 <p className="text-white leading-relaxed font-kamerick text-sm md:text-base">
-                  {project.content?.solution || "-"}
+                  {project.content?.workDelivered || "-"}
                 </p>
               </div>
             </div>
 
             {/* Results */}
             <div className="flex flex-col gap-4 bg-[#0A0A0A] p-8 md:p-12 border-l-2 border-[#FFB800]">
-              <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">The Outcome</h3>
+              <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">evidenced result</h3>
               <p className="text-lg md:text-xl text-white leading-relaxed font-kamerick">
-                {project.content?.results || "-"}
+                {project.content?.evidencedResult || "-"}
               </p>
+            </div>
+            
+            {/* Credits */}
+            <div className="flex flex-col md:flex-row gap-8 pt-8 border-t border-white/10">
+              <div className="flex flex-col gap-2">
+                 <h3 className="text-gray-500 text-xs lowercase tracking-[0.2em] font-kamerick">delivering organisation</h3>
+                 <p className="text-gray-300 text-sm font-kamerick">{project.content?.deliveringOrganisation || "Artdot"}</p>
+              </div>
+              {project.content?.partners && (
+                <div className="flex flex-col gap-2">
+                   <h3 className="text-gray-500 text-xs lowercase tracking-[0.2em] font-kamerick">partners</h3>
+                   <p className="text-gray-300 text-sm font-kamerick">{project.content.partners}</p>
+                </div>
+              )}
             </div>
 
           </div>

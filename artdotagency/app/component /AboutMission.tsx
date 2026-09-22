@@ -1,13 +1,12 @@
 "use client";
 
-import { motion, useScroll, useTransform, Variants } from "framer-motion"; // Added Variants type
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
 import { useRef } from "react";
 
 // Helper Component for the "Masked Word Reveal" animation
 const MaskedReveal = ({ text, className, delay = 0 }: { text: string, className?: string, delay?: number }) => {
   const words = text.split(" ");
 
-  // Explicitly type as Variants to fix the build error
   const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
@@ -16,7 +15,6 @@ const MaskedReveal = ({ text, className, delay = 0 }: { text: string, className?
     }),
   };
 
-  // Explicitly type as Variants to fix the build error
   const child: Variants = {
     visible: {
       opacity: 1,
@@ -60,7 +58,7 @@ export default function AboutMission() {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-  const paragraphStyle = "font-kamerick text-sm md:text-lg font-medium lowercase leading-[1.8] tracking-widest text-gray-200";
+  const paragraphStyle = "font-kamerick text-sm md:text-lg font-medium leading-[1.8] tracking-widest text-gray-200";
 
   return (
     <section 
@@ -77,7 +75,7 @@ export default function AboutMission() {
       
       <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col gap-24 md:gap-32">
 
-        {/* 4.2 ABOUT US SECTION */}
+        {/* ABOUT US SECTION */}
         <div className="flex flex-col gap-6 max-w-4xl">
           {/* Label */}
           <motion.div
@@ -88,13 +86,13 @@ export default function AboutMission() {
           >
             <div className="w-12 h-[1px] bg-[#FFB800]" />
             <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
-              01 — Who We Are
+              about us
             </span>
           </motion.div>
 
           {/* Main Statement */}
           <MaskedReveal 
-            text="We help organisations develop ideas, build distinctive brands and deliver projects that connect with people. Our work brings together strategy, funding development, creative production, programmes and mobilisation, from the first brief through to launch and delivery."
+            text="We help organisations develop ideas, build distinctive brands and deliver practical projects. Our work brings together strategy, funding development, creative production, programmes and mobilisation, from the first brief through to launch and delivery."
             className={paragraphStyle}
           />
 
@@ -104,13 +102,13 @@ export default function AboutMission() {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
             viewport={{ once: true }}
-            className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] lowercase mt-2"
+            className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] mt-2"
           >
             Part of our <span className="text-white">Art Quarter</span> ecosystem
           </motion.p>
         </div>
 
-        {/* 4.3 MISSION SECTION */}
+        {/* OUR EXPERIENCE SECTION */}
         <div className="flex flex-col gap-6 max-w-4xl self-end text-right">
            {/* Label (Aligned Right) */}
            <motion.div
@@ -120,7 +118,7 @@ export default function AboutMission() {
             className="flex items-center gap-4 justify-end"
           >
             <span className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] lowercase">
-              02 — Our Experience
+              our experience
             </span>
             <div className="w-12 h-[1px] bg-gray-700" />
           </motion.div>

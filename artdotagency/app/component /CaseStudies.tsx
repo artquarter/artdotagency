@@ -11,11 +11,9 @@ import { useRef } from "react";
 // SUB-COMPONENT: Cinematic Card
 // ------------------------------------------------------------------
 const CinematicCard = ({ project, index }: { project: any; index: number }) => {
-  // TYPE FIX: Explicitly typed as HTMLDivElement
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
 
-  // Mouse Tracking for Lens Flare
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -83,7 +81,7 @@ const CinematicCard = ({ project, index }: { project: any; index: number }) => {
           </h3>
 
           <div className="overflow-hidden">
-            <p className="font-kamerick text-gray-400 text-xs md:text-sm lowercase tracking-widest transform translate-y-0 group-hover:text-[#FFB800] transition-colors duration-300">
+            <p className="font-kamerick text-gray-400 text-xs md:text-sm tracking-widest transform translate-y-0 group-hover:text-[#FFB800] transition-colors duration-300">
               {project.category}
             </p>
           </div>
@@ -108,26 +106,10 @@ export default function CaseStudies() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-[1px] bg-[#FFB800]" />
-              <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
-                04 — Selected Work
-              </span>
-            </div>
-            <h2 className="font-kamerick text-3xl md:text-5xl font-bold text-white lowercase tracking-tight">
-              Featured <span className="text-[#FFB800]">Case Studies</span>
+            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-white lowercase tracking-tight">
+              Our <span className="text-[#FFB800]">work</span>
             </h2>
           </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="font-kamerick text-gray-500 text-xs md:text-sm lowercase tracking-widest max-w-xs text-right hidden md:block"
-          >
-            Real results delivered through data-led strategies.
-          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
