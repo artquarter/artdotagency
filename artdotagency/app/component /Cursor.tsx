@@ -45,7 +45,7 @@ export default function Cursor() {
       {/* 1. The Small Dot (Instant) */}
       <motion.div
         // ADDED: 'hidden md:block' to hide on mobile
-        className="hidden md:block fixed top-0 left-0 w-2 h-2 bg-[#FFB800] rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        className="hidden md:block fixed top-0 left-0 w-2 h-2 bg-[#CCFF00] rounded-full pointer-events-none z-[9999] mix-blend-difference"
         style={{ 
             translateX: mouseX, 
             translateY: mouseY,
@@ -62,7 +62,7 @@ export default function Cursor() {
         animate={{
           scale: isHovered ? 2.5 : 1, // Expands on hover
           backgroundColor: isHovered ? "rgba(255, 184, 0, 0.1)" : "transparent",
-          borderColor: isHovered ? "#FFB800" : "rgba(255, 255, 255, 0.5)",
+          borderColor: isHovered ? "#CCFF00" : "rgba(255, 255, 255, 0.5)",
         }}
         transition={{ duration: 0.2 }}
       />

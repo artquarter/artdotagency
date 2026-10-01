@@ -18,14 +18,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         {/* Back Button */}
         <Link 
           href="/#work" 
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-[#FFB800] transition-colors mb-12 text-sm lowercase tracking-widest font-kamerick"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-[#CCFF00] transition-colors mb-12 text-sm lowercase tracking-widest font-kamerick"
         >
           <ArrowLeft className="w-4 h-4" /> back to work
         </Link>
 
         {/* HERO HEADER */}
         <div className="flex flex-col gap-6 mb-12 border-b border-white/10 pb-12">
-          <span className="text-[#FFB800] text-xs md:text-sm tracking-[0.2em] lowercase font-kamerick">
+          <span className="text-[#CCFF00] text-xs md:text-sm tracking-[0.2em] lowercase font-kamerick">
             {project.category}
           </span>
           <h1 className="text-4xl md:text-6xl font-bold lowercase tracking-tighter font-kamerick text-white">
@@ -70,9 +70,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                     <span className="block text-xs text-gray-400 lowercase tracking-wider font-kamerick">{stat.label}</span>
                   </div>
                 ))}
-                {!project.stats && (
-                  <p className="text-gray-400 font-kamerick text-sm">Results pending final compilation.</p>
-                )}
               </div>
             </div>
           </div>
@@ -82,7 +79,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             
             {/* The Brief */}
             <div className="flex flex-col gap-4">
-              <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">the brief</h3>
+              <h3 className="text-neonlime text-xs lowercase tracking-[0.2em] font-kamerick">the original brief</h3>
               <p className="text-xl md:text-2xl text-gray-200 leading-relaxed font-kamerick">
                 {project.content?.brief || "Detailed case study currently being updated."}
               </p>
@@ -90,7 +87,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
 
             {/* In-content Image if video is at top */}
             {project.video && project.image && (
-              <div className="w-full overflow-hidden bg-[#0F0F0F] border border-white/5 relative aspect-video">
+              <div className="w-full overflow-hidden bg-void/40 backdrop-blur-md border border-white/5 relative aspect-video">
                 <img 
                   src={project.image} 
                   alt={`${project.client} in action`}
@@ -102,25 +99,17 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             {/* Role & Delivery */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="flex flex-col gap-4">
-                <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">our role</h3>
+                <h3 className="text-neonlime text-xs lowercase tracking-[0.2em] font-kamerick">our precise role</h3>
                 <p className="text-white leading-relaxed font-kamerick text-sm md:text-base">
                   {project.content?.ourRole || "-"}
                 </p>
               </div>
-              <div className="flex flex-col gap-4">
-                <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">work delivered</h3>
-                <p className="text-white leading-relaxed font-kamerick text-sm md:text-base">
+              <div className="flex flex-col gap-4 bg-void/40 p-8 md:p-12 border-l-2 border-neonlime">
+                <h3 className="text-neonlime text-xs lowercase tracking-[0.2em] font-kamerick">what actually happened</h3>
+                <p className="text-lg md:text-xl text-white leading-relaxed font-kamerick">
                   {project.content?.workDelivered || "-"}
                 </p>
               </div>
-            </div>
-
-            {/* Results */}
-            <div className="flex flex-col gap-4 bg-[#0A0A0A] p-8 md:p-12 border-l-2 border-[#FFB800]">
-              <h3 className="text-[#FFB800] text-xs lowercase tracking-[0.2em] font-kamerick">evidenced result</h3>
-              <p className="text-lg md:text-xl text-white leading-relaxed font-kamerick">
-                {project.content?.evidencedResult || "-"}
-              </p>
             </div>
             
             {/* Credits */}

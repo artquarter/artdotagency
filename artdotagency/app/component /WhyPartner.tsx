@@ -50,7 +50,7 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
         ease: [0.25, 0.46, 0.45, 0.94]
       }}
       onMouseMove={handleMouseMove}
-      className="group relative bg-[#0F0F0F] border border-white/5 p-8 overflow-hidden"
+      className="group relative bg-void/40 backdrop-blur-md border border-white/5 p-8 overflow-hidden"
     >
       
       {/* 1. SPOTLIGHT EFFECT */}
@@ -60,7 +60,7 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
           background: useMotionTemplate`
             radial-gradient(
               400px circle at ${mouseX}px ${mouseY}px,
-              rgba(255, 184, 0, 0.1),
+              rgba(204, 255, 0, 0.1),
               transparent 80%
             )
           `,
@@ -74,12 +74,12 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
       <div className="relative z-20">
         
         {/* Icon */}
-        <div className="w-12 h-12 bg-white/5 border border-white/5 flex items-center justify-center mb-6 text-gray-400 group-hover:text-[#FFB800] group-hover:border-[#FFB800] group-hover:bg-[#FFB800]/10 transition-all duration-300">
+        <div className="w-12 h-12 bg-white/5 border border-white/5 flex items-center justify-center mb-6 text-gray-400 group-hover:text-neonlime group-hover:border-neonlime group-hover:bg-neonlime/10 transition-all duration-300">
           <item.icon className="w-5 h-5" />
         </div>
         
         {/* Title */}
-        <h3 className="font-kamerick text-xl font-bold text-white lowercase tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">
+        <h3 className="font-kamerick text-xl font-bold text-alabaster lowercase tracking-tight mb-3 group-hover:translate-x-1 transition-transform duration-300">
           {item.title}
         </h3>
         
@@ -95,7 +95,7 @@ const BenefitCard = ({ item, index }: { item: any; index: number }) => {
 
 export default function WhyPartner() {
   return (
-    <section className="relative w-full bg-[#050505] py-24 md:py-32 border-t border-white/5 overflow-hidden">
+    <section id="insights-section" className="relative w-full bg-transparent py-24 md:py-32 border-t border-white/5 overflow-hidden">
       
       {/* Texture Overlay */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
@@ -109,9 +109,9 @@ export default function WhyPartner() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-kamerick text-4xl md:text-6xl font-bold text-white lowercase tracking-tight mb-4"
+            className="font-kamerick text-4xl md:text-6xl font-bold text-alabaster lowercase tracking-tight mb-4"
           >
-            Ways of <span className="text-[#FFB800]">working</span>
+            Ways of <span className="text-neonlime">working</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}

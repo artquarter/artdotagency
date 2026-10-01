@@ -17,6 +17,20 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
+    slug: "coventry-cultural-gateway",
+    client: "Coventry Cultural Gateway",
+    category: "Ongoing Commission",
+    image: "https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&q=80&w=800",
+    content: {
+      brief: "To develop a strategic cultural vision and delivery framework for the Coventry Cultural Gateway.",
+      ourRole: "Lead cultural strategists and community consultation partners.",
+      workDelivered: "This is an ongoing commission. We are currently mapping stakeholders, running co-design workshops, and developing the operational models that will define the space.",
+      evidencedResult: "Ongoing Commission",
+      deliveringOrganisation: "Coventry City Council",
+      partners: "Various Civic Partners"
+    }
+  },
+  {
     slug: "community-screenings",
     client: "Inclusive community screenings at Art Quarter",
     category: "LED screen and public screening programme",
@@ -59,36 +73,10 @@ export const caseStudies: CaseStudy[] = [
     category: "Group Venture Destination",
     image: "/images/aq-foodhall.jpg",
     content: {
-      brief: "To establish a vibrant food and hospitality concept in Digbeth.",
-      ourRole: "Concept development and operational mobilisation.",
-      workDelivered: "A multi-vendor food hall environment.",
-      evidencedResult: "Established a working environment that anchors the Art Quarter ecosystem.",
-      deliveringOrganisation: "Art Quarter"
-    }
-  },
-  {
-    slug: "art-barbers",
-    client: "Art Barbers",
-    category: "Brand & customer experience",
-    image: "/images/barbers.jpg",
-    content: {
-      brief: "To develop a distinctive personal service brand.",
-      ourRole: "Brand creation and experiential design.",
-      workDelivered: "A fully mobilised barbering environment.",
-      evidencedResult: "Integrated into the Art Quarter ecosystem.",
-      deliveringOrganisation: "Art Quarter"
-    }
-  },
-  {
-    slug: "art-salon",
-    client: "Art Salon",
-    category: "Brand & audience understanding",
-    image: "/images/salon.jpg",
-    content: {
-      brief: "To expand the personal services offer with a dedicated salon brand.",
-      ourRole: "Brand creation and audience engagement.",
-      workDelivered: "A fully mobilised salon environment.",
-      evidencedResult: "Integrated into the Art Quarter ecosystem.",
+      brief: "To establish a vibrant food and hospitality concept in Digbeth focused on community connection.",
+      ourRole: "Concept methodology, operational modelling, and community integration.",
+      workDelivered: "We focused on developing a scalable operational model and curating a diverse trader mix. The methodology prioritized creating an accessible third-space for local demographics.",
+      evidencedResult: "Methodology and operational models successfully deployed to establish the venue.",
       deliveringOrganisation: "Art Quarter"
     }
   },
@@ -102,6 +90,32 @@ export const caseStudies: CaseStudy[] = [
       ourRole: "Event programming, coordination and delivery.",
       workDelivered: "Live temporary experiences connecting the community.",
       evidencedResult: "Successful delivery of key cultural moments in Digbeth.",
+      deliveringOrganisation: "Art Quarter"
+    }
+  },
+  {
+    slug: "art-barbers",
+    client: "Art Barbers",
+    category: "Commercial Brand Experience",
+    image: "/images/barbers.jpg",
+    content: {
+      brief: "To develop a distinctive personal service brand.",
+      ourRole: "Brand creation and experiential design.",
+      workDelivered: "A fully mobilised barbering environment.",
+      evidencedResult: "Integrated into the Art Quarter ecosystem.",
+      deliveringOrganisation: "Art Quarter"
+    }
+  },
+  {
+    slug: "art-salon",
+    client: "Art Salon",
+    category: "Commercial Brand Experience",
+    image: "/images/salon.jpg",
+    content: {
+      brief: "To expand the personal services offer with a dedicated salon brand.",
+      ourRole: "Brand creation and audience engagement.",
+      workDelivered: "A fully mobilised salon environment.",
+      evidencedResult: "Integrated into the Art Quarter ecosystem.",
       deliveringOrganisation: "Art Quarter"
     }
   }

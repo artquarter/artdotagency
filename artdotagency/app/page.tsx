@@ -13,6 +13,7 @@ import ContactBreak from "./component /ContactBreak";
 import Footer from "./component /Footer";
 import Preloader from "./component /Preloader";
 import Cursor from "./component /Cursor";
+import ScrollOrchestrator from "./component /ScrollOrchestrator";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(() => {
@@ -26,7 +27,7 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-[#050505] min-h-screen">
+    <main className="min-h-screen bg-transparent">
       
       {/* 1. PRELOADER */}
       {loading && <Preloader onFinish={handleFinish} />}
@@ -35,8 +36,9 @@ export default function Home() {
       <Hero startAnimation={!loading} />
 
       {/* 3. CONTENT WRAPPER */}
-      <div className="relative z-10 bg-[#050505]">
+      <div className="relative z-10 bg-transparent">
         <Cursor />
+        <ScrollOrchestrator />
         
         {/* Sequence: Services -> Work -> Ways of Working -> Intro -> Insights -> Contact */}
         <CreativeServices />

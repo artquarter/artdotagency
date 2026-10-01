@@ -4,25 +4,13 @@ import { useRef, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import Footer from "../component /Footer";
 import Cursor from "../component /Cursor";
+import ContactParticles from "../component /ContactParticles";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-const servicesList = [
-  "strategy and advisory",
-  "funding and bids",
-  "brands and places",
-  "mobilisation and delivery",
-  "events and experiences",
-  "programmes and training",
-  "marketing and content",
-  "initial review",
-  "ongoing support",
-  "not sure yet",
-];
-
 const inputClass =
   "w-full bg-black/50 border border-white/10 px-4 py-3 text-white " +
-  "focus:outline-none focus:border-[#FFB800] transition-colors";
+  "focus:outline-none focus:border-neonlime transition-colors";
 
 const labelClass =
   "block font-kamerick text-xs text-gray-400 lowercase " +
@@ -52,10 +40,6 @@ export default function Contact() {
       name: value("name"),
       organisation: value("organisation"),
       email: value("email"),
-      phone: value("phone"),
-      typeOfSupport: value("typeOfSupport"),
-      budget: value("budget"),
-      deadline: value("deadline"),
       message: value("message"),
     };
 
@@ -110,8 +94,9 @@ export default function Contact() {
   }
 
   return (
-    <main className="bg-[#050505] min-h-screen text-white">
+    <main className="bg-void min-h-screen text-white relative overflow-hidden">
       <Cursor />
+      <ContactParticles />
 
       <div className="container mx-auto px-6 py-32 relative z-10 min-h-screen flex flex-col justify-center">
         <div className="max-w-3xl mx-auto w-full">
@@ -121,11 +106,10 @@ export default function Contact() {
             className="mb-16 text-center"
           >
             <h1 className="font-kamerick text-4xl md:text-6xl font-bold mb-6 tracking-tight lowercase">
-              discuss a <span className="text-[#FFB800]">project</span>
+              discuss a <span className="text-[#CCFF00]">project</span>
             </h1>
             <p className="font-kamerick text-gray-400 text-sm md:text-lg lowercase tracking-widest max-w-xl mx-auto">
-              tell us about your organisation, the opportunity and any date
-              that matters.
+              tell us what you are trying to achieve. we aim to respond within 24 hours.
             </p>
           </motion.div>
 
@@ -134,7 +118,7 @@ export default function Contact() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               role="status"
-              className="bg-[#0F0F0F] border border-[#FFB800]/30 text-[#FFB800] p-12 text-center"
+              className="bg-[#0F0F0F] border border-[#CCFF00]/30 text-[#CCFF00] p-12 text-center"
             >
               <h2 className="font-kamerick text-3xl font-bold mb-4 lowercase">
                 thank you
@@ -177,101 +161,32 @@ export default function Contact() {
 
                   <div>
                     <label htmlFor="organisation" className={labelClass}>
-                      organisation *
+                      organisation (optional)
                     </label>
                     <input
                       id="organisation"
                       name="organisation"
                       type="text"
                       autoComplete="organization"
-                      required
                       maxLength={200}
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <label htmlFor="email" className={labelClass}>
-                      email *
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      maxLength={254}
-                      className={inputClass}
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="phone" className={labelClass}>
-                      phone number
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      autoComplete="tel"
-                      maxLength={50}
                       className={inputClass}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="typeOfSupport" className={labelClass}>
-                    type of support
+                  <label htmlFor="email" className={labelClass}>
+                    email *
                   </label>
-                  <select
-                    id="typeOfSupport"
-                    name="typeOfSupport"
-                    defaultValue=""
-                    className={`${inputClass} appearance-none lowercase`}
-                  >
-                    <option value="">select an option</option>
-                    {servicesList.map((service) => (
-                      <option
-                        key={service}
-                        value={service}
-                        className="bg-[#050505]"
-                      >
-                        {service}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <label htmlFor="budget" className={labelClass}>
-                      indicative project budget
-                    </label>
-                    <input
-                      id="budget"
-                      name="budget"
-                      type="text"
-                      placeholder="prefer to discuss"
-                      maxLength={200}
-                      className={`${inputClass} placeholder:text-gray-600`}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="deadline" className={labelClass}>
-                      deadline or important date
-                    </label>
-                    <input
-                      id="deadline"
-                      name="deadline"
-                      type="text"
-                      maxLength={200}
-                      className={inputClass}
-                    />
-                  </div>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    maxLength={254}
+                    className={inputClass}
+                  />
                 </div>
 
                 <div>
@@ -300,11 +215,11 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="w-full px-8 py-5 bg-[#FFB800] text-black font-kamerick text-sm font-bold lowercase tracking-widest hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-wait"
+                  className="w-full px-8 py-5 bg-neonlime text-black font-kamerick text-sm font-bold lowercase tracking-widest hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-wait"
                 >
                   {status === "submitting"
                     ? "submitting..."
-                    : "submit enquiry"}
+                    : "discuss a project"}
                 </button>
               </fieldset>
             </motion.form>
@@ -312,7 +227,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <div className="relative z-10 bg-[#050505]">
+      <div className="relative z-10 bg-void">
         <Footer />
       </div>
     </main>

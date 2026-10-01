@@ -34,13 +34,13 @@ export default function CulturePreview() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
-            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-white tracking-tight lowercase">
+            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-alabaster tracking-tight lowercase">
               Insights & <br/><span className="text-gray-600">reports</span>
             </h2>
           </div>
           <Link 
             href="/insights"
-            className="group flex items-center gap-3 text-xs font-kamerick tracking-widest text-[#FFB800] hover:text-white transition-colors lowercase"
+            className="group flex items-center gap-3 text-xs font-kamerick tracking-widest text-[#CCFF00] hover:text-alabaster transition-colors lowercase"
           >
             view all insights
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -68,12 +68,12 @@ export default function CulturePreview() {
                 />
                 
                 {/* Yellow overlay on hover */}
-                <div className="absolute inset-0 bg-[#FFB800]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-[#CCFF00]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay" />
               </div>
 
               {/* Text */}
               <div className="flex-grow">
-                <h3 className="font-kamerick text-xl font-bold text-white mb-3 group-hover:text-[#FFB800] transition-colors line-clamp-2">
+                <h3 className="font-kamerick text-xl font-bold text-alabaster mb-3 group-hover:text-[#CCFF00] transition-colors line-clamp-2">
                   {item.title}
                 </h3>
                 <p className="font-kamerick text-gray-500 text-sm leading-relaxed">

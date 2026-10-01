@@ -38,8 +38,7 @@ export default function ContactBreak() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="font-kamerick text-black/60 text-xs md:text-sm lowercase tracking-widest max-w-md mx-auto mb-8"
         >
-          You’ve seen the numbers. You’ve seen the reach. <br/>
-          Now stop watching and start dominating.
+          We bring together an associate network of specialists ready to shape your cultural spaces and involve communities.
         </motion.p>
 
         {/* 3. THE ACTION */}
@@ -52,7 +51,7 @@ export default function ContactBreak() {
           <a 
             href="/contact" 
             // STYLE: Black button on White bg = Maximum Contrast
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#FFB800] text-black font-kamerick text-xs md:text-sm font-bold lowercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300 overflow-hidden"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#CCFF00] text-black font-kamerick text-xs md:text-sm font-bold lowercase tracking-[0.2em] hover:bg-black hover:text-alabaster transition-all duration-300 overflow-hidden"
           >
             <span className="relative z-10">Discuss a project</span>
             <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />

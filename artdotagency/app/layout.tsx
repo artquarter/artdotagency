@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./component /SmoothScroll";
 import Navbar from "./component /Navbar";
+import WebGLBackground from "./component /WebGLBackground";
 
 // 1. Configure Kamerick (The "Banging" Font)
 const kamerick = localFont({
@@ -123,9 +124,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${kamerick.variable} font-kamerick bg-black text-white antialiased overflow-x-hidden`}
+        className={`${kamerick.variable} font-kamerick bg-void text-alabaster antialiased overflow-x-hidden`}
       >
         <SmoothScroll>
+          <WebGLBackground />
           <Navbar />
           {children}
         </SmoothScroll>

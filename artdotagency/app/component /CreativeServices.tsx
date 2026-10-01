@@ -6,36 +6,24 @@ import { useRef } from "react";
 // Data
 const services = [
   {
-    name: "Strategy and advisory",
-    description: "Defining commercial or cultural goals and outlining an actionable roadmap to achieve them."
+    name: "Cultural Strategy for Places",
+    description: "Cultural mapping, vision setting, partnership development, and clear delivery plans."
   },
   {
-    name: "Funding and bids",
-    description: "Identifying funding opportunities and developing competitive bids to secure necessary capital."
+    name: "Community Engagement & Co-design",
+    description: "Stakeholder mapping, accessible workshops, and community findings that directly inform civic decisions."
   },
   {
-    name: "Brands and places",
-    description: "Creating distinctive brand identities and shaping physical environments that connect with people."
+    name: "Cultural Venues, Foodhalls & Markets",
+    description: "Audience research, trader mix curation, operating models, and business planning."
   },
   {
-    name: "Mobilisation and delivery",
-    description: "Preparing teams, partners, schedules and operations for a successful launch and practical delivery."
+    name: "Public Realm & Design Guidance",
+    description: "Defining community requirements, cultural uses, and drafting briefs for appointed architects/designers."
   },
   {
-    name: "Events and experiences",
-    description: "Producing live, temporary experiences that engage audiences directly."
-  },
-  {
-    name: "Programmes and training",
-    description: "Designing and leading structured, ongoing activity delivered over time."
-  },
-  {
-    name: "Marketing and content",
-    description: "Supporting communication and audience engagement through planned campaigns and content creation."
-  },
-  {
-    name: "ai and business automation",
-    description: "streamlining operations by integrating crm systems and automated communication pipelines to eliminate manual admin and simplify daily workflows."
+    name: "Cultural Programmes & Events",
+    description: "Programme curation, producer coordination, live delivery, and social value reporting."
   }
 ];
 
@@ -56,7 +44,7 @@ const ServiceItem = ({ item, index }: { item: { name: string, description: strin
       <div className="absolute inset-0 bg-white mix-blend-overlay opacity-0 group-hover:animate-flash pointer-events-none z-10" />
       
       {/* 2. HOVER BACKGROUND */}
-      <div className="absolute inset-0 bg-[#FFB800]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform origin-left scale-x-0 group-hover:scale-x-100 ease-out" />
+      <div className="absolute inset-0 bg-[#CCFF00]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform origin-left scale-x-0 group-hover:scale-x-100 ease-out" />
 
       {/* 3. CONTENT */}
       <div className="relative z-20 w-full flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -64,7 +52,7 @@ const ServiceItem = ({ item, index }: { item: { name: string, description: strin
           initial={{ y: "100%" }}
           animate={isInView ? { y: "0%" } : {}}
           transition={{ duration: 0.5, delay: index * 0.05, ease: [0.76, 0, 0.24, 1] }}
-          className="font-kamerick text-xl md:text-3xl font-bold text-white group-hover:text-white group-hover:pl-6 transition-all duration-300 tracking-tight lowercase"
+          className="font-kamerick text-xl md:text-3xl font-bold text-alabaster group-hover:text-alabaster group-hover:pl-6 transition-all duration-300 tracking-tight lowercase"
         >
           {item.name}
         </motion.h3>
@@ -85,7 +73,7 @@ const ServiceItem = ({ item, index }: { item: { name: string, description: strin
 
 export default function CreativeServices({ hideHeader = false }: { hideHeader?: boolean }) {
   return (
-    <section className="relative w-full bg-[#050505] py-24 md:py-32 border-t border-white/5 overflow-hidden">
+    <section className="relative w-full bg-transparent py-24 md:py-32 border-t border-white/5 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
         
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
@@ -99,8 +87,8 @@ export default function CreativeServices({ hideHeader = false }: { hideHeader?: 
             transition={{ duration: 0.8 }}
             className="lg:w-1/3 lg:sticky lg:top-32 self-start"
           >
-            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-white tracking-tight mb-8 leading-[0.9] lowercase">
-              Our <span className="text-[#FFB800]">Services</span>
+            <h2 className="font-kamerick text-4xl md:text-6xl font-bold text-alabaster tracking-tight mb-8 leading-[0.9] lowercase">
+              Our <span className="text-[#CCFF00]">Services</span>
             </h2>
             
             <p className="font-kamerick text-gray-400 text-sm leading-relaxed max-w-sm border-l border-white/10 pl-6">

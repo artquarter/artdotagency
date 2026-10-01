@@ -48,7 +48,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 w-full z-50 bg-[#050505]/90 backdrop-blur-md border-b border-white/10"
       >
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="font-kamerick text-white font-bold text-xl hover:text-[#FFB800] transition-colors lowercase">
+          <Link href="/" className="font-kamerick text-alabaster font-bold text-xl hover:text-[#CCFF00] transition-colors lowercase">
             artdotagency
           </Link>
           
@@ -61,19 +61,19 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={`font-kamerick text-sm lowercase tracking-widest transition-colors relative group ${
-                    isActive ? "text-[#FFB800]" : "text-gray-400 hover:text-white"
+                    isActive ? "text-[#CCFF00]" : "text-gray-400 hover:text-alabaster"
                   }`}
                 >
                   {link.name}
                   {isActive && (
-                    <motion.div layoutId="nav-indicator" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#FFB800] rounded-full" />
+                    <motion.div layoutId="nav-indicator" className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#CCFF00] rounded-full" />
                   )}
                 </Link>
               );
             })}
             <Link
               href="/contact"
-              className="font-kamerick text-xs lowercase tracking-widest px-6 py-3 border border-[#FFB800] text-[#FFB800] rounded-full hover:bg-[#FFB800] hover:text-black transition-colors ml-4"
+              className="font-kamerick text-xs lowercase tracking-widest px-6 py-3 border border-[#CCFF00] text-[#CCFF00] rounded-full hover:bg-[#CCFF00] hover:text-black transition-colors ml-4"
             >
               discuss a project
             </Link>
@@ -81,7 +81,7 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button 
-            className="md:hidden text-white hover:text-[#FFB800] transition-colors"
+            className="md:hidden text-alabaster hover:text-[#CCFF00] transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -106,7 +106,7 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     className={`font-kamerick text-2xl lowercase tracking-widest transition-colors ${
-                      isActive ? "text-[#FFB800]" : "text-gray-400"
+                      isActive ? "text-[#CCFF00]" : "text-gray-400"
                     }`}
                   >
                     {link.name}
@@ -115,7 +115,7 @@ export default function Navbar() {
               })}
               <Link
                 href="/contact"
-                className="font-kamerick text-lg lowercase tracking-widest px-6 py-4 border border-[#FFB800] text-[#FFB800] rounded-full text-center mt-8"
+                className="font-kamerick text-lg lowercase tracking-widest px-6 py-4 border border-[#CCFF00] text-[#CCFF00] rounded-full text-center mt-8"
               >
                 discuss a project
               </Link>

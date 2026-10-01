@@ -1,27 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  /* This connects the Next.js font variable to the class 'font-kamerick' */
+  /* Connect Next.js font variable */
   --font-kamerick: var(--font-kamerick);
   
-  /* Let's add your brand colors from the doc while we're here */
-  --color-brand-orange: #FF9900; 
-  --color-brand-dark: #050505;
+  /* Awwwards Site of the Year Palette */
+  --color-void: #010101;
+  --color-alabaster: #F5F5F7;
+  --color-ultraviolet: #6E00FF;
+  --color-neonlime: #CCFF00;
+  --color-slate: #4A4A4F;
 }
 
 ::selection {
-  background-color: #FFB800; /* Your Gold */
-  color: #000000;            /* Force Black Text for contrast */
+  background-color: #CCFF00; /* Neon Lime */
+  color: #010101;            /* Void Black */
 }
 
-/* For Firefox support */
 ::-moz-selection {
-  background-color: #FFB800;
-  color: #000000;
+  background-color: #CCFF00;
+  color: #010101;
 }
-
 
 /* Global Reset for that "Premium Dark" feel */
 body {
-  @apply bg-brand-dark text-white font-sans antialiased;
+  @apply bg-void text-alabaster font-sans antialiased transition-colors duration-1000;
+}
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }

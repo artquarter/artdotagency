@@ -64,13 +64,13 @@ export default function AboutMission() {
     <section 
       id="about" 
       ref={containerRef} 
-      className="relative w-full bg-[#050505] text-white py-24 md:py-32 overflow-hidden"
+      className="relative w-full bg-transparent text-alabaster py-24 md:py-32 overflow-hidden"
     >
       
       {/* Decorative Background Glow */}
       <motion.div 
         style={{ y }}
-        className="absolute top-20 right-0 w-[400px] h-[400px] bg-[#FFB800] rounded-full mix-blend-screen filter blur-[100px] opacity-[0.03] pointer-events-none" 
+        className="absolute top-20 right-0 w-[400px] h-[400px] bg-neonlime rounded-full mix-blend-screen filter blur-[100px] opacity-[0.03] pointer-events-none" 
       />
       
       <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col gap-24 md:gap-32">
@@ -84,8 +84,8 @@ export default function AboutMission() {
             viewport={{ once: true }}
             className="flex items-center gap-4"
           >
-            <div className="w-12 h-[1px] bg-[#FFB800]" />
-            <span className="font-kamerick text-[#FFB800] text-[10px] md:text-xs tracking-[0.2em] lowercase">
+            <div className="w-12 h-[1px] bg-[#CCFF00]" />
+            <span className="font-kamerick text-[#CCFF00] text-[10px] md:text-xs tracking-[0.2em] lowercase">
               about us
             </span>
           </motion.div>
@@ -104,7 +104,7 @@ export default function AboutMission() {
             viewport={{ once: true }}
             className="font-kamerick text-gray-500 text-[10px] md:text-xs tracking-[0.2em] mt-2"
           >
-            Part of our <span className="text-white">Art Quarter</span> ecosystem
+            Part of our <span className="text-alabaster">Art Quarter</span> ecosystem
           </motion.p>
         </div>
 
@@ -131,6 +131,29 @@ export default function AboutMission() {
               delay={2} 
             />
           </div>
+        </div>
+
+        {/* COMMUNITY EXPERTISE SECTION */}
+        <div className="flex flex-col gap-6 max-w-4xl">
+          {/* Label */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-4"
+          >
+            <div className="w-12 h-[1px] bg-[#CCFF00]" />
+            <span className="font-kamerick text-[#CCFF00] text-[10px] md:text-xs tracking-[0.2em] lowercase">
+              community expertise
+            </span>
+          </motion.div>
+
+          {/* Expertise Text */}
+          <MaskedReveal 
+            text="We do not claim to reach everyone. Instead, we have deep, authentic roots in specific demographics that often remain underrepresented in cultural decision-making. Our core expertise lies in engaging South Asian and Muslim communities, interfaith networks, and diverse youth populations. We achieve this not through traditional marketing, but through trusted local partnerships, culturally appropriate venue and timing selections, and ensuring genuine, accessible participation."
+            className={paragraphStyle}
+            delay={4}
+          />
         </div>
 
       </div>

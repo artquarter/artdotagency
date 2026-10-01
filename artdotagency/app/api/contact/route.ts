@@ -211,7 +211,7 @@ export async function POST(request: Request) {
       payload.organisation,
       "your organisation",
       200,
-      true,
+      false, // Organization is now optional
     );
     const email = textField(
       payload.email,
@@ -220,17 +220,6 @@ export async function POST(request: Request) {
       true,
     ).toLowerCase();
 
-    const phone = textField(payload.phone, "phone number", 50);
-
-    const typeOfSupport = textField(
-      payload.typeOfSupport,
-      "type of support",
-      200,
-    );
-    const budget = textField(payload.budget, "budget", 200);
-    const deadline = textField(payload.deadline, "deadline", 200);
-
-    // Supports both the updated form and your current "goals" field.
     const message = textField(
       payload.message ?? payload.goals,
       "your message",
@@ -261,12 +250,8 @@ export async function POST(request: Request) {
 
     const fields: Array<[string, string]> = [
       ["Name", name],
-      ["Organisation", organisation],
+      ["Organisation", organisation || "Not specified"],
       ["Email", email],
-      ["Phone", phone || "Not specified"],
-      ["Type of support", typeOfSupport || "Not specified"],
-      ["Budget", budget || "Not specified"],
-      ["Deadline", deadline || "Not specified"],
       ["Message", message],
     ];
 
@@ -286,12 +271,11 @@ export async function POST(request: Request) {
 
     let contactId: string;
     
-    // Standard HubSpot properties. Custom properties will cause 400 Bad Request if not created in HubSpot.
+    // Standard HubSpot properties.
     const contactProperties = {
       email,
       firstname: name,
       company: organisation,
-      phone: phone,
     };
 
     try {
