@@ -24,12 +24,12 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.artdotagency.io'), 
 
   title: {
-    default: "Artdotagency | Strategic Creative Solutions",
+    default: "Artdotagency | Cultural Strategy & Community Engagement",
     template: "%s | Artdotagency", 
   },
-  description: "Strategy, creative and delivery. We develop brands, programmes and places.",
+  description: "We help councils, cultural organizations, and development teams shape cultural spaces, involve communities, and deliver high-impact public programmes.",
   
-  keywords: ["Creative Agency", "Brand Strategy", "Gen Z Marketing", "Web Design", "Birmingham", "London", "Digital Culture"],
+  keywords: ["Cultural Strategy", "Community Engagement", "Public Realm", "Placemaking", "Civic Design", "Cultural Venues", "Birmingham", "London", "Social Value"],
   
   // Developer & Author Identification
   authors: [{ name: "Artdotagency Team" }, { name: "Ashley Amaka John" }],
@@ -41,16 +41,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_GB", 
     url: "https://www.artdotagency.io",
-    title: "Artdotagency | Strategic Creative Solutions",
-    description: "Strategic creative solutions bridging the gap between brands and culture.",
+    title: "Artdotagency | Cultural Strategy & Community Engagement",
+    description: "We help councils and developers shape cultural spaces, involve communities, and deliver high-impact public programmes.",
     siteName: "Artdotagency",
   },
 
   // TWITTER / X
   twitter: {
     card: "summary_large_image",
-    title: "Artdotagency | Strategic Creative Solutions",
-    description: "Strategic creative solutions bridging the gap between brands and culture.",
+    title: "Artdotagency | Cultural Strategy & Community Engagement",
+    description: "We help councils and developers shape cultural spaces, involve communities, and deliver high-impact public programmes.",
     creator: "@artdotagency", 
   },
 
