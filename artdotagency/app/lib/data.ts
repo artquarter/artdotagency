@@ -17,20 +17,6 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "coventry-cultural-gateway",
-    client: "Coventry Cultural Gateway",
-    category: "Ongoing Commission",
-    image: "https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?auto=format&fit=crop&q=80&w=800",
-    content: {
-      brief: "To develop a strategic cultural vision and delivery framework for the Coventry Cultural Gateway.",
-      ourRole: "Lead cultural strategists and community consultation partners.",
-      workDelivered: "This is an ongoing commission. We are currently mapping stakeholders, running co-design workshops, and developing the operational models that will define the space.",
-      evidencedResult: "Ongoing Commission",
-      deliveringOrganisation: "Coventry City Council",
-      partners: "Various Civic Partners"
-    }
-  },
-  {
     slug: "community-screenings",
     client: "Inclusive community screenings at Art Quarter",
     category: "LED screen and public screening programme",

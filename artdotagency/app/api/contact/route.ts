@@ -252,6 +252,13 @@ export async function POST(request: Request) {
       ["Name", name],
       ["Organisation", organisation || "Not specified"],
       ["Email", email],
+      ["Role", payload.role ? String(payload.role) : "Not specified"],
+      ["Website", payload.website ? String(payload.website) : "Not specified"],
+      ["Decision Maker", payload.decisionMaker ? "Yes" : "No"],
+      ["Sector", payload.sector ? String(payload.sector) : "Not specified"],
+      ["Budget", payload.budget ? String(payload.budget) : "Not specified"],
+      ["Target Start", payload.startDate ? String(payload.startDate) : "Not specified"],
+      ["Source", payload.source ? String(payload.source) : "Not specified"],
       ["Message", message],
     ];
 

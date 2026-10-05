@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import SmoothScroll from "./component /SmoothScroll";
-import Navbar from "./component /Navbar";
-import WebGLBackground from "./component /WebGLBackground";
+import SiteShell from "./component /SiteShell";
+import { HOME_TITLE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, pageMetadata } from "./lib/seo";
 
 // 1. Configure Kamerick (The "Banging" Font)
 const kamerick = localFont({
@@ -18,50 +17,18 @@ const kamerick = localFont({
   display: "swap",
 });
 
-// 2. THE SEO CONFIGURATION
 export const metadata: Metadata = {
-  // IMPORTANT: Change this to your actual domain when you deploy!
-  metadataBase: new URL('https://www.artdotagency.io'), 
-
+  ...pageMetadata(HOME_TITLE, SITE_DESCRIPTION, "/"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Artdotagency | Cultural Strategy & Community Engagement",
-    template: "%s | Artdotagency", 
+    default: `${HOME_TITLE} | ${SITE_NAME}`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "We help councils, cultural organizations, and development teams shape cultural spaces, involve communities, and deliver high-impact public programmes.",
-  
-  keywords: ["Cultural Strategy", "Community Engagement", "Public Realm", "Placemaking", "Civic Design", "Cultural Venues", "Birmingham", "London", "Social Value"],
-  
-  // Developer & Author Identification
-  authors: [{ name: "Artdotagency Team" }, { name: "Ashley Amaka John" }],
-  creator: "Ashley Amaka John",
-  publisher: "Nightburn Tech Services",
-
-  // OPEN GRAPH (Facebook, LinkedIn, Discord, Slack)
-  openGraph: {
-    type: "website",
-    locale: "en_GB", 
-    url: "https://www.artdotagency.io",
-    title: "Artdotagency | Cultural Strategy & Community Engagement",
-    description: "We help councils and developers shape cultural spaces, involve communities, and deliver high-impact public programmes.",
-    siteName: "Artdotagency",
-  },
-
-  // TWITTER / X
-  twitter: {
-    card: "summary_large_image",
-    title: "Artdotagency | Cultural Strategy & Community Engagement",
-    description: "We help councils and developers shape cultural spaces, involve communities, and deliver high-impact public programmes.",
-    creator: "@artdotagency", 
-  },
-
-  // ICONS (Favicons)
-  icons: {
-    icon: "/art.png",
-    shortcut: "/art.png",
-    apple: "/art.png", 
-  },
-
-  // ROBOTS (Google Indexing)
+  // Canonicals belong to individual pages, not the shared layout.
+  alternates: undefined,
+  authors: [{ name: SITE_NAME }],
+  publisher: SITE_NAME,
+  icons: { icon: "/art.png", shortcut: "/art.png", apple: "/art.png" },
   robots: {
     index: true,
     follow: true,
@@ -88,27 +55,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   
-  // --- JSON-LD SCHEMA ---
-  // Connects the Agency to you as the Developer for Google's Knowledge Graph
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Artdotagency",
-    "url": "https://www.artdotagency.io",
-    "author": {
-      "@type": "Person",
-      "name": "Ashley Amaka John",
-      "alternateName": ["Night", "Jinxx"],
-      "jobTitle": "Full-stack Software Engineer",
-      "brand": {
-        "@type": "Brand",
-        "name": "Nightburn Tech Services"
-      }
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        alternateName: "Artdot",
+        url: SITE_URL,
+        logo: `${SITE_URL}/art.png`,
+        description: SITE_DESCRIPTION,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+        inLanguage: "en-GB",
+      },
+    ],
   };
 
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <head>
         {/* Hidden Developer Signature in HTML Source */}
         <script
@@ -126,11 +97,7 @@ export default function RootLayout({
       <body
         className={`${kamerick.variable} font-kamerick bg-void text-alabaster antialiased overflow-x-hidden`}
       >
-        <SmoothScroll>
-          <WebGLBackground />
-          <Navbar />
-          {children}
-        </SmoothScroll>
+        <SiteShell>{children}</SiteShell>
 
         {/* Developer Console Greeting */}
         <script

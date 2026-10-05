@@ -80,9 +80,9 @@ export default function Preloader({ onFinish }: { onFinish: () => void }) {
                 transition={{ duration: 0.4 }}
                 className="absolute inset-0 flex flex-col items-center justify-center z-20 mix-blend-difference"
             >
-                <h1 className="font-kamerick text-[15vw] md:text-[12rem] font-bold text-[#CCFF00] tracking-tighter leading-none">
+                <span aria-hidden="true" className="font-kamerick text-[15vw] md:text-[12rem] font-bold text-[#CCFF00] tracking-tighter leading-none">
                 {count}
-                </h1>
+                </span>
             </motion.div>
         </motion.div>
       )}

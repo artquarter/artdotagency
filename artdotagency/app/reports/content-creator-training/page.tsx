@@ -22,7 +22,7 @@ export default function ReportPage() {
           <span className="text-[#FFB800] text-[10px] tracking-[0.2em] lowercase border border-[#FFB800] px-3 py-1 rounded-full mb-4 inline-block">
             Impact report
           </span>
-          <h1 className="text-3xl md:text-5xl font-bold lowercase tracking-tighter font-kamerick max-w-4xl mb-6 mt-4">
+          <h1 className="text-2xl md:text-4xl font-bold lowercase tracking-tighter font-kamerick max-w-4xl mb-6 mt-4">
             Content creator training register
           </h1>
           <p className="text-gray-400 font-kamerick text-sm max-w-2xl leading-relaxed">

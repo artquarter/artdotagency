@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Artdotagency | Cultural Strategy & Community Engagement';
+export const alt = 'Artdot Agency | Funding, Research & Impact Consultancy';
 export const size = {
   width: 1200,
   height: 630,
@@ -45,10 +45,10 @@ export default async function Image() {
         {/* TOP METADATA */}
         <div style={{ display: 'flex', justifyContent: 'space-between', zIndex: 10 }}>
             <span style={{ color: '#CCFF00', fontSize: 24, letterSpacing: '0.2em', textTransform: 'lowercase' }}>
-                associate network
+                independent consultancy
             </span>
             <span style={{ color: '#666', fontSize: 24, letterSpacing: '0.2em' }}>
-                // BHM - LDN
+                artdotagency.io
             </span>
         </div>
 
@@ -56,7 +56,7 @@ export default async function Image() {
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', zIndex: 10 }}>
              <span
                 style={{
-                    fontSize: 160,
+                    fontSize: 120,
                     fontWeight: 900, 
                     color: '#F5F5F7',
                     lineHeight: 0.8,
@@ -71,13 +71,13 @@ export default async function Image() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', zIndex: 10 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <span style={{ color: '#F5F5F7', fontSize: 32, letterSpacing: '-0.02em', textTransform: 'lowercase' }}>
-                    cultural strategy for places
+                    funding strategy & bid development
                 </span>
                 <span style={{ color: '#F5F5F7', fontSize: 32, letterSpacing: '-0.02em', textTransform: 'lowercase' }}>
-                    community engagement & co-design
+                    audience research & impact evaluation
                 </span>
                 <span style={{ color: '#F5F5F7', fontSize: 32, letterSpacing: '-0.02em', textTransform: 'lowercase' }}>
-                    public realm curation
+                    growth for culture & community
                 </span>
             </div>
             
