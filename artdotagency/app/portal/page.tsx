@@ -1,38 +1,32 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import type { FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, FileText } from "lucide-react";
+
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { gsap } from "gsap";
 import Link from "next/link";
+import { generateStrategy } from "../actions";
 
 type View = "form" | "processing" | "dashboard";
 type Tab = "diagnostic" | "opportunities" | "plan";
 
-const mockData = {
-  "client": "Art Quarter",
-  "capacityLedger": { "package": "Growth Partner", "fee": "£6,000/month", "maxHours": 16, "allocated": 5, "remaining": 11 },
-  "diagnostic": {
-    "physicalAssets": "28 Food Kitchens, 600m² Shared Dining, 400m² Events Room",
-    "targetRealisedRate": "£300 - £350/hour",
-    "evidenceGaps": ["The floor plans show two different sizes: 3,766m² and 3,392m².", "We need information about the local people this project will serve."]
-  },
-  "opportunities": [
-    { "id": 1, "title": "Together on Culture: Magnets and Moonshots Fund", "type": "Funding (Birmingham City Council)", "score": 92, "status": "GREEN LIGHT REQUIRED" },
-    { "id": 2, "title": "Ramadan Nights Lakemba-Style Food Pilot", "type": "Commercial Activation", "score": 85, "status": "RECOMMENDED" }
-  ],
-  "plan": [
-    { "priority": 1, "title": "Prepare the funding application", "owner": "Bid Writer, approved by Jordan", "status": "Green light required" },
-    { "priority": 2, "title": "Confirm the floor measurements", "owner": "Operations Lead with Art Quarter", "status": "In progress" },
-    { "priority": 3, "title": "Plan community food nights", "owner": "Community Producer with Art Quarter", "status": "Identified" }
-  ]
-};
 
 const initialBrief = {
-  organisation: mockData.client,
-  assets: `${mockData.diagnostic.physicalAssets}.`,
-  challenge: "The floor plans show two different sizes (3,766m² and 3,392m²). We also need information about the people this project will serve.",
+  organisation: "",
+  assets: "",
+  challenge: "",
+  rate: ""
 };
+
+
+const WIZARD_ASSETS = ["Food Kitchens", "Shared Dining", "Events Room", "Co-working Space", "Exhibition Hall", "Meeting Rooms", "Cafe/Bar", "Outdoor Space", "Workshop"];
+const WIZARD_CHALLENGES = [
+  "We have floor plan discrepancies and lack audience data.",
+  "We need to secure government funding within 3 months.",
+  "We want to launch a commercial event to generate revenue.",
+  "Our current community program lacks engagement.",
+];
+const WIZARD_RATES = ["£200 - £250/hour", "£300 - £350/hour", "£400+/hour"];
 
 const reviewSteps = [
   "Checking the project details",
@@ -61,52 +55,145 @@ const tourSteps = [
 const focusClass = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neonlime";
 const primaryClass = `inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-neonlime px-5 py-3 text-sm font-medium text-void transition-colors hover:bg-alabaster ${focusClass}`;
 const secondaryClass = `inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm text-alabaster/65 transition-colors hover:bg-alabaster/5 hover:text-alabaster ${focusClass}`;
-const inputClass = "min-w-0 w-full rounded-md border border-alabaster/20 bg-[#101010] px-3 py-2.5 text-base text-alabaster outline-none focus:border-neonlime focus:ring-1 focus:ring-neonlime";
-const labelClass = "mb-2 block text-xs font-medium text-alabaster/65";
+
+
 const cardClass = "rounded-2xl border border-alabaster/10 bg-[#0b0b0b]";
 
 export default function PortalDemo() {
+  const [formStep, setFormStep] = useState(1);
+  const [wizardData, setWizardData] = useState({
+    organisation: "",
+    assets: [] as string[],
+    challenge: "",
+    rate: "",
+  });
+
+  async function submitWizard() {
+    const generatedBrief = {
+      organisation: wizardData.organisation,
+      assets: wizardData.assets.join(", "),
+      challenge: wizardData.challenge,
+      rate: wizardData.rate
+    };
+    setBrief(generatedBrief);
+    setReviewedBrief(generatedBrief);
+    
+    shouldFocus.current = true;
+    
+    setActiveTab("diagnostic");
+    setHasResults(false);
+    setLoadingStep(0);
+    setView("processing");
+    
+    // Simulate steps updating for UI
+    const timer = setInterval(() => {
+        setLoadingStep(prev => Math.min(prev + 1, 3));
+    }, 1500);
+
+    try {
+      const data = await generateStrategy(generatedBrief);
+      setAiData(data);
+      clearInterval(timer);
+      setLoadingStep(4);
+      setHasResults(true);
+      setView("dashboard");
+    } catch (e) {
+      clearInterval(timer);
+      console.error(e);
+      alert("Failed to connect to OpenAI.");
+      setView("form");
+    }
+  }
+
   const [view, setView] = useState<View>("form");
   const [loadingStep, setLoadingStep] = useState(0);
   const [activeTab, setActiveTab] = useState<Tab>("diagnostic");
-  const [editing, setEditing] = useState(false);
+  
   const [brief, setBrief] = useState(initialBrief);
   const [reviewedBrief, setReviewedBrief] = useState(initialBrief);
   const [hasResults, setHasResults] = useState(false);
+  const [aiData, setAiData] = useState<any>(null);
   const [decision, setDecision] = useState<null | "approved" | "declined" | "discuss">(null);
   const [decidedAt, setDecidedAt] = useState("");
-  const approved = decision === "approved";
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("artdot_portal_state");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.formStep) setFormStep(parsed.formStep);
+          if (parsed.wizardData) setWizardData(parsed.wizardData);
+          if (parsed.brief) setBrief(parsed.brief);
+          if (parsed.reviewedBrief) setReviewedBrief(parsed.reviewedBrief);
+          if (parsed.hasResults) setHasResults(parsed.hasResults);
+          if (parsed.aiData) setAiData(parsed.aiData);
+          if (parsed.view) setView(parsed.view);
+          if (parsed.activeTab) setActiveTab(parsed.activeTab);
+          if (parsed.decision) setDecision(parsed.decision);
+          if (parsed.decidedAt) setDecidedAt(parsed.decidedAt);
+        } catch (e) {
+          console.error("Failed to parse saved state", e);
+        }
+      }
+      setIsHydrated(true);
+    }
+  }, []);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    if (isHydrated && typeof window !== "undefined") {
+      const stateToSave = {
+        formStep,
+        wizardData,
+        brief,
+        reviewedBrief,
+        hasResults,
+        aiData,
+        view,
+        activeTab,
+        decision,
+        decidedAt
+      };
+      localStorage.setItem("artdot_portal_state", JSON.stringify(stateToSave));
+    }
+  }, [isHydrated, formStep, wizardData, brief, reviewedBrief, hasResults, aiData, view, activeTab, decision, decidedAt]);
+
   function decide(next: "approved" | "declined" | "discuss") {
     setDecision(next);
     setDecidedAt(new Date().toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }));
   }
   function resetDecision() { setDecision(null); setDecidedAt(""); }
-  const [tourOpen, setTourOpen] = useState(true);
+  const [tourOpen, setTourOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hasSeen = localStorage.getItem("artdot_tour_seen");
+      if (!hasSeen) {
+        setTourOpen(true);
+      }
+    }
+  }, []);
+
+  function closeTour() {
+    setTourOpen(false);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("artdot_tour_seen", "true");
+    }
+  }
   const [tourStep, setTourStep] = useState(0);
   const tourNextRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldFocus = useRef(false);
-  const { capacityLedger } = mockData;
+  const capacityLedger = { package: "Growth Partner", fee: "£6,000/month", maxHours: 16, allocated: 5, remaining: 11 };
   const currentStep = view === "dashboard" ? journey.findIndex((step) => step.id === activeTab) : 0;
   const briefUnchanged = JSON.stringify(brief) === JSON.stringify(reviewedBrief);
   const canReturn = hasResults && briefUnchanged;
 
-  useEffect(() => {
-    if (view !== "processing") return;
-    let step = 0;
-    const interval = window.setInterval(() => {
-      step += 1;
-      if (step === reviewSteps.length) {
-        window.clearInterval(interval);
-        setHasResults(true);
-        setView("dashboard");
-      } else {
-        setLoadingStep(step);
-      }
-    }, 1500);
-    return () => window.clearInterval(interval);
-  }, [view]);
+  
 
   useEffect(() => {
     if (!shouldFocus.current) return;
@@ -129,7 +216,7 @@ export default function PortalDemo() {
   useEffect(() => {
     if (!tourOpen) return;
     tourNextRef.current?.focus();
-    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setTourOpen(false); };
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") closeTour(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [tourOpen, tourStep]);
@@ -146,27 +233,8 @@ export default function PortalDemo() {
     }
   }
 
-  function runDiagnostic(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    shouldFocus.current = true;
-    if (Object.values(brief).some((value) => !value.trim())) {
-      setEditing(true);
-      return;
-    }
-    setEditing(false);
-    setActiveTab("diagnostic");
-    if (canReturn) {
-      setView("dashboard");
-      return;
-    }
-    setReviewedBrief({ ...brief });
-    setHasResults(false);
-    setLoadingStep(0);
-    setView("processing");
-  }
-
-  function updateBrief(field: keyof typeof initialBrief, value: string) {
-    setBrief((previous) => ({ ...previous, [field]: value }));
+  if (!isHydrated) {
+    return null; // Prevent hydration flash
   }
 
   return (
@@ -217,69 +285,114 @@ export default function PortalDemo() {
         </header>
 
         <div ref={contentRef} className="mx-auto max-w-[1120px] px-5 py-7 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-          {view === "form" && (
-            <form onSubmit={runDiagnostic}>
-              <div className="animate-in mb-7 max-w-xl sm:mb-9">
-                <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-neonlime">01 / Your project</p>
-                <h1 ref={headingRef} tabIndex={-1} className="text-[26px] font-medium leading-tight tracking-tight outline-none sm:text-3xl">Your project at a glance.</h1>
-                <p className="mt-3 text-sm leading-6 text-alabaster/65">Check the details, then see what needs fixing and what to do next.</p>
+                    {view === "form" && (
+            <div className="mx-auto max-w-2xl py-10">
+              <div className="mb-10 flex items-center justify-between">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-neonlime">Step 0{formStep} / 04</p>
+                <div className="flex gap-1.5">
+                  {[1, 2, 3, 4].map(s => (
+                    <div key={s} className={`h-1 rounded-full transition-all duration-300 ${s === formStep ? "w-6 bg-neonlime" : s < formStep ? "w-2 bg-neonlime/40" : "w-2 bg-alabaster/20"}`} />
+                  ))}
+                </div>
               </div>
 
-              <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-                <section className={`animate-in min-w-0 ${cardClass}`} aria-labelledby="brief-title">
-                  <div className="flex items-center justify-between gap-3 border-b border-alabaster/10 px-5 py-4 sm:px-6">
-                    <h2 id="brief-title" className="text-sm font-medium">Project summary</h2>
-                    <button type="button" aria-expanded={editing} aria-controls="brief-details" onClick={() => setEditing(!editing)} className={`${secondaryClass} min-h-9 px-2 text-xs`}>
-                      {editing ? "Close details" : "Edit details"}<ChevronDown aria-hidden className={`h-3.5 w-3.5 transition-transform ${editing ? "rotate-180" : ""}`} />
-                    </button>
+              {formStep === 1 && (
+                <div className="animate-in space-y-6">
+                  <h1 className="text-[26px] font-medium tracking-tight sm:text-3xl">What is the name of your organisation?</h1>
+                  <input 
+                    type="text" 
+                    autoFocus
+                    placeholder="e.g. Art Quarter" 
+                    value={wizardData.organisation} 
+                    onChange={e => setWizardData({...wizardData, organisation: e.target.value})} 
+                    className="w-full border-b border-alabaster/20 bg-transparent py-4 text-xl text-alabaster outline-none transition-colors focus:border-neonlime placeholder:text-alabaster/30"
+                    onKeyDown={e => e.key === "Enter" && wizardData.organisation.trim() && setFormStep(2)}
+                  />
+                  <div className="mt-10 flex justify-end">
+                    <button type="button" onClick={() => setFormStep(2)} disabled={!wizardData.organisation.trim()} className={`${primaryClass} disabled:opacity-50 disabled:cursor-not-allowed`}>Next<ArrowRight className="h-4 w-4" /></button>
                   </div>
-                  {editing ? (
-                    <div id="brief-details" className="grid gap-5 p-5 sm:p-6">
-                      <div><label htmlFor="organisation" className={labelClass}>Organisation</label><input id="organisation" name="organisation" value={brief.organisation} onChange={(e) => updateBrief("organisation", e.target.value)} required className={inputClass} /></div>
-                      <div><label htmlFor="assets" className={labelClass}>Spaces available</label><textarea id="assets" name="assets" value={brief.assets} onChange={(e) => updateBrief("assets", e.target.value)} rows={3} required className={inputClass} /></div>
-                      <div><label htmlFor="challenge" className={labelClass}>Main challenge</label><textarea id="challenge" name="challenge" value={brief.challenge} onChange={(e) => updateBrief("challenge", e.target.value)} rows={4} required className={inputClass} /></div>
-                                            <div><label htmlFor="retainer" className={labelClass}>Support package</label><select id="retainer" name="retainer" className={inputClass} defaultValue="Growth Partner (£6,000/month)"><option>Growth Partner (£6,000/month)</option></select></div>
-                    </div>
-                  ) : (
-                    <div id="brief-details" className="p-5 sm:p-6">
-                      <p className="text-[10px] uppercase tracking-wider text-alabaster/50">Spaces available</p>
-                      <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                        {brief.assets.replace(/\.$/, "").split(",").map((asset, index) => (
-                          <div key={index} className="rounded-lg border border-alabaster/10 bg-alabaster/[0.025] p-3.5">
-                            <span className="mb-3 hidden text-[9px] tabular-nums text-neonlime sm:block">0{index + 1}</span>
-                            <p className="text-sm font-medium leading-5">{asset.trim()}</p>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-6 border-t border-alabaster/10 pt-5">
-                        <p className="text-[10px] uppercase tracking-wider text-alabaster/50">What needs help</p>
-                        <p className="mt-2 text-sm leading-6 text-alabaster/75">{brief.challenge}</p>
-                      </div>
-                      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2 border-t border-alabaster/10 pt-5">
-                        <span className="text-xs text-alabaster/50">Support package</span>
-                        <span className="text-sm font-medium">{capacityLedger.package} · {capacityLedger.fee}</span>
-                      </div>
-                    </div>
-                  )}
-                </section>
-                <aside className={`animate-in hidden xl:block ${cardClass} p-5 sm:p-6`} aria-labelledby="review-includes">
-                  <FileText aria-hidden className="mb-5 h-5 w-5 text-neonlime" />
-                  <h2 id="review-includes" className="text-base font-medium">What you’ll see next</h2>
-                  <ol className="mt-5 grid gap-5">
-                    {journey.slice(1).map((step, index) => (
-                      <li key={step.id} className="flex gap-3">
-                        <span className="pt-0.5 text-[10px] tabular-nums text-alabaster/50">0{index + 1}</span>
-                        <div><p className="text-sm font-medium">{step.label}</p><p className="mt-1 text-xs leading-5 text-alabaster/50">{step.description}.</p></div>
-                      </li>
-                    ))}
-                  </ol>
-                </aside>
-              </div>
-              <div className="animate-in mt-6 flex flex-col justify-between gap-4 rounded-xl border border-neonlime/20 bg-neonlime/[0.035] p-5 sm:flex-row sm:items-center sm:px-6">
-                <div><p className="text-sm font-medium">{canReturn ? "Your priorities are ready." : "Ready to see the next step?"}</p><p className="mt-1 text-xs leading-5 text-alabaster/60">{canReturn ? "Pick up where you left off." : "Start with what needs attention."}</p></div>
-                <button type="submit" className={`${primaryClass} shrink-0`}>{canReturn ? "Back to priorities" : "See priorities"}<ArrowRight aria-hidden className="h-4 w-4" /></button>
-              </div>
-            </form>
+                </div>
+              )}
+              
+              {formStep === 2 && (
+                <div className="animate-in space-y-6">
+                  <h1 className="text-[26px] font-medium tracking-tight sm:text-3xl">What spaces do you have available?</h1>
+                  <p className="text-sm text-alabaster/60">Select all that apply.</p>
+                  <div className="flex flex-wrap gap-3">
+                    {WIZARD_ASSETS.map(asset => {
+                      const isSelected = wizardData.assets.includes(asset);
+                      return (
+                        <button 
+                          key={asset} 
+                          type="button" 
+                          onClick={() => {
+                            if (isSelected) setWizardData({...wizardData, assets: wizardData.assets.filter(a => a !== asset)});
+                            else setWizardData({...wizardData, assets: [...wizardData.assets, asset]});
+                          }}
+                          className={`rounded-full border px-5 py-3 text-sm transition-all duration-200 ${isSelected ? "border-neonlime bg-neonlime/10 text-neonlime" : "border-alabaster/20 bg-[#101010] text-alabaster hover:border-alabaster/50 hover:bg-[#1a1a1a]"}`}
+                        >
+                          {asset}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-10 flex justify-between">
+                    <button type="button" onClick={() => setFormStep(1)} className={secondaryClass}><ArrowLeft className="h-4 w-4" />Back</button>
+                    <button type="button" onClick={() => setFormStep(3)} disabled={wizardData.assets.length === 0} className={`${primaryClass} disabled:opacity-50 disabled:cursor-not-allowed`}>Next<ArrowRight className="h-4 w-4" /></button>
+                  </div>
+                </div>
+              )}
+
+              {formStep === 3 && (
+                <div className="animate-in space-y-6">
+                  <h1 className="text-[26px] font-medium tracking-tight sm:text-3xl">What is your primary challenge right now?</h1>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {WIZARD_CHALLENGES.map(challenge => {
+                      const isSelected = wizardData.challenge === challenge;
+                      return (
+                        <button 
+                          key={challenge} 
+                          type="button" 
+                          onClick={() => setWizardData({...wizardData, challenge})}
+                          className={`text-left rounded-xl border p-5 transition-all duration-200 ${isSelected ? "border-neonlime bg-neonlime/10" : "border-alabaster/20 bg-[#101010] hover:border-alabaster/50 hover:bg-[#1a1a1a]"}`}
+                        >
+                          <p className={`text-sm leading-relaxed ${isSelected ? "text-neonlime" : "text-alabaster/90"}`}>{challenge}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-10 flex justify-between">
+                    <button type="button" onClick={() => setFormStep(2)} className={secondaryClass}><ArrowLeft className="h-4 w-4" />Back</button>
+                    <button type="button" onClick={() => setFormStep(4)} disabled={!wizardData.challenge} className={`${primaryClass} disabled:opacity-50 disabled:cursor-not-allowed`}>Next<ArrowRight className="h-4 w-4" /></button>
+                  </div>
+                </div>
+              )}
+
+              {formStep === 4 && (
+                <div className="animate-in space-y-6">
+                  <h1 className="text-[26px] font-medium tracking-tight sm:text-3xl">What is your target realised rate?</h1>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {WIZARD_RATES.map(rate => {
+                      const isSelected = wizardData.rate === rate;
+                      return (
+                        <button 
+                          key={rate} 
+                          type="button" 
+                          onClick={() => setWizardData({...wizardData, rate})}
+                          className={`text-center rounded-xl border p-4 transition-all duration-200 ${isSelected ? "border-neonlime bg-neonlime/10 text-neonlime" : "border-alabaster/20 bg-[#101010] text-alabaster hover:border-alabaster/50 hover:bg-[#1a1a1a]"}`}
+                        >
+                          {rate}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-10 flex justify-between">
+                    <button type="button" onClick={() => setFormStep(3)} className={secondaryClass}><ArrowLeft className="h-4 w-4" />Back</button>
+                    <button type="button" onClick={() => submitWizard()} disabled={!wizardData.rate} className={`${primaryClass} disabled:opacity-50 disabled:cursor-not-allowed`}>Run Diagnostic<ArrowRight className="h-4 w-4" /></button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {view === "processing" && (
@@ -304,26 +417,26 @@ export default function PortalDemo() {
             </section>
           )}
 
-          {view === "dashboard" && (
+          {view === "dashboard" && aiData && (
             <div key={activeTab}>
               <div className="animate-in mb-7 max-w-2xl sm:mb-9">
                 <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-neonlime">0{currentStep + 1} / {journey[currentStep].label}</p>
                 <h1 ref={headingRef} tabIndex={-1} className="text-[26px] font-medium leading-tight tracking-tight outline-none sm:text-3xl">{activeTab === "diagnostic" ? "Two things to fix first." : activeTab === "opportunities" ? "Two ways to move forward." : "Your next 90 days."}</h1>
-                <p className="mt-3 text-sm leading-6 text-alabaster/65">{activeTab === "diagnostic" ? "Resolve these two gaps to support a stronger funding application." : activeTab === "opportunities" ? "Consider a funding application and a small community food event." : "The work to do, who is responsible and where each task stands."}</p>
+                <p className="mt-3 text-sm leading-6 text-alabaster/65">{activeTab === "diagnostic" ? "Review the evidence gaps before proceeding." : activeTab === "opportunities" ? "Here are the top options we matched for your project." : "The work to do, who is responsible and where each task stands."}</p>
               </div>
 
               {activeTab === "diagnostic" && (
                 <>
                   <section className="animate-in mb-5 rounded-xl border border-neonlime/20 bg-gradient-to-br from-ultraviolet/15 to-void p-5 sm:p-6" aria-labelledby="priority-title">
                     <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-neonlime">Start here</p>
-                    <h2 id="priority-title" className="text-lg font-medium leading-snug">Confirm the space and who it serves.</h2>
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-alabaster/65">Agree the correct floor size and gather local audience information.</p>
+                    <h2 id="priority-title" className="text-lg font-medium leading-snug">{aiData.diagnostic.priorityTitle}</h2>
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-alabaster/65">{aiData.diagnostic.priorityDescription}</p>
                   </section>
                   <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
                     <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="gaps-title">
                       <div className="mb-5 flex items-center justify-between gap-3"><h2 id="gaps-title" className="text-sm font-medium">What’s missing</h2><span className="rounded-full bg-red-400/10 px-2.5 py-1 text-[10px] text-red-300">2 items</span></div>
                       <ol className="divide-y divide-alabaster/10">
-                        {mockData.diagnostic.evidenceGaps.map((gap, index) => (
+                        {aiData.diagnostic.evidenceGaps.map((gap, index) => (
                           <li key={gap} className="flex gap-3 py-4 first:pt-0 last:pb-0"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">0{index + 1}</span><div><p className="text-sm leading-6">{gap}</p><span className="mt-2 inline-block rounded-full bg-red-400/10 px-2.5 py-1 text-[10px] text-red-300">{evidenceStates[index]}</span></div></li>
                         ))}
                       </ol>
@@ -343,22 +456,33 @@ export default function PortalDemo() {
               {activeTab === "opportunities" && (
                 <>
                   <div className="grid gap-5 xl:grid-cols-2">
-                    {mockData.opportunities.map((opportunity, index) => (
-                      <article key={opportunity.id} className={`animate-in flex min-w-0 flex-col ${cardClass} p-5 sm:p-6`}>
-                        <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><span className="text-[10px] uppercase tracking-wider text-alabaster/50">Option 0{index + 1}</span><span className={`rounded-full px-2.5 py-1 text-[9px] font-semibold tracking-wide ${index === 0 ? "bg-amber-300/10 text-amber-200" : "bg-neonlime/10 text-neonlime"}`}>{index === 0 ? "Needs approval" : "Suggested"}</span></div>
-                        <p className="mb-2 text-xs text-alabaster/50">{index === 0 ? "Government funding" : "Income from events"}</p>
-                        <h2 className="text-lg font-medium leading-snug">{index === 0 ? "Apply for cultural funding" : "Try community food nights"}</h2>
-                        <details className="mt-5 rounded-lg border border-alabaster/10 px-3 py-2">
-                          <summary className={`cursor-pointer py-1 text-xs text-alabaster/65 ${focusClass}`}>More details</summary>
-                          <p className="mt-3 text-sm leading-6">{opportunity.title}</p>
-                          <p className="mt-2 text-xs leading-5 text-alabaster/60">{opportunity.type}</p>
-                          <p className="mt-3 text-xs text-alabaster/60">Project match: {opportunity.score} / 100</p>
-                          <p className="mt-2 pb-1 text-xs text-alabaster/60">{index === 0 ? "Eligibility to be confirmed by the Bid Writer against current guidance." : "Costs and assumptions to be reviewed before approval."}</p>
-                        </details>
-                        <div className="mt-5"><p className="text-[10px] uppercase tracking-wider text-alabaster/50">What to do next</p><p className="mt-2 text-sm leading-6 text-alabaster/75">{index === 0 ? "Check whether the project qualifies for this funding before starting the application." : "Agree the size, budget and team for a first food event."}</p></div>
+                    {aiData.opportunities.map((opportunity: any, index: number) => {
+                      const isBestBet = index === 0;
+                      return (
+                      <article key={opportunity.id} className={`animate-in flex min-w-0 flex-col ${cardClass} p-5 sm:p-6 ${isBestBet ? "border-neonlime/30 bg-neonlime/[0.02]" : ""}`}>
+                        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                          <span className="text-[10px] uppercase tracking-wider text-alabaster/50">Option 0{index + 1}</span>
+                          <span className={`rounded-full px-2.5 py-1 text-[9px] font-semibold tracking-wide ${isBestBet ? "bg-neonlime/15 text-neonlime" : "bg-alabaster/10 text-alabaster"}`}>
+                            {isBestBet ? "★ BEST BET" : "ALTERNATIVE"}
+                          </span>
+                        </div>
+                        <p className="mb-2 text-xs text-alabaster/50 uppercase tracking-wider">{opportunity.type}</p>
+                        <h2 className="text-lg font-medium leading-snug">{opportunity.title}</h2>
+                        <p className="mt-3 text-sm leading-6 text-alabaster/80">{opportunity.shortDescription}</p>
+                        <div className="mt-5 rounded-lg border border-alabaster/10 bg-[#101010] p-4">
+                          <p className="text-xs text-alabaster/50">Match Score</p>
+                          <div className="mt-2 flex items-center gap-3">
+                            <div className="h-1.5 flex-1 rounded-full bg-alabaster/10"><div className="h-full rounded-full bg-neonlime" style={{ width: `${opportunity.score}%` }} /></div>
+                            <span className="text-xs font-medium">{opportunity.score}/100</span>
+                          </div>
+                        </div>
+                        <div className="mt-5">
+                          <p className="text-[10px] uppercase tracking-wider text-alabaster/50">What to do next</p>
+                          <p className="mt-2 text-sm leading-6 text-alabaster/75">{opportunity.nextSteps}</p>
+                        </div>
                         <button type="button" onClick={() => goTo("plan")} className={`mt-auto flex min-h-12 items-center justify-between gap-3 pt-6 text-left text-sm font-medium text-neonlime ${focusClass}`}>See next steps<ArrowRight aria-hidden className="h-4 w-4 shrink-0" /></button>
                       </article>
-                    ))}
+                    )})}
                   </div>
                   <div className="animate-in mt-7 flex flex-col-reverse justify-between gap-3 border-t border-alabaster/10 pt-5 sm:flex-row sm:items-center"><button type="button" onClick={() => goTo("diagnostic")} className={secondaryClass}><ArrowLeft aria-hidden className="h-4 w-4" />Back to priorities</button><button type="button" onClick={() => goTo("plan")} className={primaryClass}>See next steps<ArrowRight aria-hidden className="h-4 w-4" /></button></div>
                 </>
@@ -370,7 +494,7 @@ export default function PortalDemo() {
                     <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="work-title">
                       <div className="mb-6 flex items-center justify-between gap-3"><h2 id="work-title" className="text-sm font-medium">The next 90 days</h2><span className="text-xs text-alabaster/50">3 tasks</span></div>
                       <ol className="ml-3 border-l border-alabaster/15">
-                        {mockData.plan.map((item) => {
+                        {aiData.plan.map((item) => {
                           const status = item.priority === 1 && decision ? ({ approved: "In production", declined: "Declined", discuss: "Discussion requested" } as const)[decision] : item.status;
                           return (
                           <li key={item.priority} className="animate-in relative pb-7 pl-6 last:pb-0 sm:pl-7">
@@ -404,14 +528,17 @@ export default function PortalDemo() {
                     <div className="grid gap-5">
                       <section className="animate-in rounded-xl border border-neonlime/20 bg-neonlime/[0.035] p-5 sm:p-6" aria-labelledby="decision-title">
                         <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-neonlime">Your next decision</p>
-                        <h2 id="decision-title" className="text-base font-medium leading-snug">Agree who will take the first step.</h2>
-                        <p className="mt-3 text-sm leading-6 text-alabaster/65">Confirm who will check the floor size and gather audience information. Then decide whether to proceed with the funding application.</p>
+                        <h2 id="decision-title" className="text-base font-medium leading-snug">{aiData.plan[0]?.title || "Agree who will take the first step."}</h2>
+                        <p className="mt-3 text-sm leading-6 text-alabaster/65">Review the priority task and decide whether to approve, discuss, or decline.</p>
                       </section>
                       <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="needs-title">
                         <h2 id="needs-title" className="text-sm font-medium">What we need from you</h2>
                         <ol className="mt-4 grid gap-3">
-                          <li className="flex gap-3 text-sm leading-6"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">01</span>Confirm the correct floor size: 3,766m² or 3,392m².</li>
-                          <li className="flex gap-3 text-sm leading-6"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">02</span>Share information about the local people the project will serve.</li>
+                          {aiData.diagnostic.evidenceGaps.map((gap: string, index: number) => (
+                            <li key={index} className="flex gap-3 text-sm leading-6">
+                              <span className="mt-0.5 text-xs tabular-nums text-alabaster/50">0{index + 1}</span>{gap}
+                            </li>
+                          ))}
                         </ol>
                         <p className="mt-4 text-[11px] leading-5 text-alabaster/50">Drafting starts once both are confirmed.</p>
                       </section>
@@ -432,7 +559,7 @@ export default function PortalDemo() {
       </main>
 
       {tourOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center" onClick={() => setTourOpen(false)}>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 sm:items-center" onClick={closeTour}>
           <div role="dialog" aria-modal="true" aria-labelledby="tour-title" onClick={(e) => e.stopPropagation()} className={`w-full max-w-md ${cardClass} p-6 shadow-2xl sm:p-7`}>
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-neonlime">{tourSteps[tourStep].label}</p>
             <h2 id="tour-title" className="mt-3 text-xl font-medium leading-snug tracking-tight">{tourSteps[tourStep].title}</h2>
@@ -443,13 +570,13 @@ export default function PortalDemo() {
               ))}
             </div>
             <div className="mt-6 flex items-center justify-between gap-3">
-              <button type="button" onClick={() => setTourOpen(false)} className={secondaryClass}>Skip</button>
+              <button type="button" onClick={closeTour} className={secondaryClass}>Skip</button>
               <div className="flex items-center gap-2">
                 {tourStep > 0 && <button type="button" onClick={() => setTourStep(tourStep - 1)} className={secondaryClass}>Back</button>}
                 <button
                   ref={tourNextRef}
                   type="button"
-                  onClick={() => (tourStep === tourSteps.length - 1 ? setTourOpen(false) : setTourStep(tourStep + 1))}
+                  onClick={() => (tourStep === tourSteps.length - 1 ? closeTour() : setTourStep(tourStep + 1))}
                   className={primaryClass}
                 >
                   {tourStep === tourSteps.length - 1 ? "Start demo" : "Next"}<ArrowRight aria-hidden className="h-4 w-4" />
