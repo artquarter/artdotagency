@@ -32,6 +32,7 @@ const initialBrief = {
   organisation: mockData.client,
   assets: `${mockData.diagnostic.physicalAssets}.`,
   challenge: "The floor plans show two different sizes (3,766m² and 3,392m²). We also need information about the people this project will serve.",
+  rate: mockData.diagnostic.targetRealisedRate,
 };
 
 const reviewSteps = [
@@ -48,14 +49,12 @@ const journey: { id: "brief" | Tab; label: string; description: string }[] = [
   { id: "plan", label: "Next steps", description: "Who does what" },
 ];
 
-const evidenceStates = ["Contradicted", "Evidence required"];
-
 const tourSteps = [
-  { label: "Welcome", title: "A walkthrough of your workspace.", body: "It shows how Artdot takes an organisation from what it has today to a clear plan. Four short sections, about two minutes." },
+  { label: "Welcome", title: "A walkthrough of your workspace.", body: "This shows how Artdot takes an organisation from what it has today to a clear plan. Four short sections, about two minutes." },
   { label: "01 Project", title: "What you have.", body: "The organisation's spaces, its main challenge and the support package. This is the information we gather in the first diagnostic." },
   { label: "02 Priorities", title: "What needs fixing first.", body: "Gaps in the evidence are listed before any work starts, so applications are never built on unsupported claims." },
   { label: "03 Options", title: "Ways to move forward.", body: "Funding and income options, each with a fit score and a source. Nothing goes ahead without approval." },
-  { label: "04 Next steps", title: "Who does what.", body: "A 90-day plan with a named owner for every task, and a live count of support hours. Jordan can approve, discuss or decline the first task." },
+  { label: "04 Next steps", title: "Who does what.", body: "A 90-day plan with a named owner for every task, and a live count of support hours. Try the Approve button on the first task." },
 ];
 
 const focusClass = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neonlime";
@@ -73,14 +72,7 @@ export default function PortalDemo() {
   const [brief, setBrief] = useState(initialBrief);
   const [reviewedBrief, setReviewedBrief] = useState(initialBrief);
   const [hasResults, setHasResults] = useState(false);
-  const [decision, setDecision] = useState<null | "approved" | "declined" | "discuss">(null);
-  const [decidedAt, setDecidedAt] = useState("");
-  const approved = decision === "approved";
-  function decide(next: "approved" | "declined" | "discuss") {
-    setDecision(next);
-    setDecidedAt(new Date().toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }));
-  }
-  function resetDecision() { setDecision(null); setDecidedAt(""); }
+  const [approved, setApproved] = useState(false);
   const [tourOpen, setTourOpen] = useState(true);
   const [tourStep, setTourStep] = useState(0);
   const tourNextRef = useRef<HTMLButtonElement>(null);
@@ -238,7 +230,8 @@ export default function PortalDemo() {
                       <div><label htmlFor="organisation" className={labelClass}>Organisation</label><input id="organisation" name="organisation" value={brief.organisation} onChange={(e) => updateBrief("organisation", e.target.value)} required className={inputClass} /></div>
                       <div><label htmlFor="assets" className={labelClass}>Spaces available</label><textarea id="assets" name="assets" value={brief.assets} onChange={(e) => updateBrief("assets", e.target.value)} rows={3} required className={inputClass} /></div>
                       <div><label htmlFor="challenge" className={labelClass}>Main challenge</label><textarea id="challenge" name="challenge" value={brief.challenge} onChange={(e) => updateBrief("challenge", e.target.value)} rows={4} required className={inputClass} /></div>
-                                            <div><label htmlFor="retainer" className={labelClass}>Support package</label><select id="retainer" name="retainer" className={inputClass} defaultValue="Growth Partner (£6,000/month)"><option>Growth Partner (£6,000/month)</option></select></div>
+                      <div><label htmlFor="rate" className={labelClass}>Target hourly rate</label><input id="rate" name="rate" value={brief.rate} onChange={(e) => updateBrief("rate", e.target.value)} required className={inputClass} /></div>
+                      <div><label htmlFor="retainer" className={labelClass}>Support package</label><select id="retainer" name="retainer" className={inputClass} defaultValue="Growth Partner (£6,000/month)"><option>Growth Partner (£6,000/month)</option></select></div>
                     </div>
                   ) : (
                     <div id="brief-details" className="p-5 sm:p-6">
@@ -256,8 +249,8 @@ export default function PortalDemo() {
                         <p className="mt-2 text-sm leading-6 text-alabaster/75">{brief.challenge}</p>
                       </div>
                       <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2 border-t border-alabaster/10 pt-5">
-                        <span className="text-xs text-alabaster/50">Support package</span>
-                        <span className="text-sm font-medium">{capacityLedger.package} · {capacityLedger.fee}</span>
+                        <span className="text-xs text-alabaster/50">Target hourly rate</span>
+                        <span className="text-sm font-medium tabular-nums">{brief.rate}</span>
                       </div>
                     </div>
                   )}
@@ -324,13 +317,13 @@ export default function PortalDemo() {
                       <div className="mb-5 flex items-center justify-between gap-3"><h2 id="gaps-title" className="text-sm font-medium">What’s missing</h2><span className="rounded-full bg-red-400/10 px-2.5 py-1 text-[10px] text-red-300">2 items</span></div>
                       <ol className="divide-y divide-alabaster/10">
                         {mockData.diagnostic.evidenceGaps.map((gap, index) => (
-                          <li key={gap} className="flex gap-3 py-4 first:pt-0 last:pb-0"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">0{index + 1}</span><div><p className="text-sm leading-6">{gap}</p><span className="mt-2 inline-block rounded-full bg-red-400/10 px-2.5 py-1 text-[10px] text-red-300">{evidenceStates[index]}</span></div></li>
+                          <li key={gap} className="flex gap-3 py-4 first:pt-0 last:pb-0"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">0{index + 1}</span><p className="text-sm leading-6">{gap}</p></li>
                         ))}
                       </ol>
                     </section>
                     <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="baseline-title">
                       <h2 id="baseline-title" className="mb-5 text-sm font-medium">Your space</h2>
-                      <dl className="grid gap-5"><div><dt className="text-[10px] uppercase tracking-wider text-alabaster/50">Spaces available</dt><dd className="mt-2 text-sm leading-6">{reviewedBrief.assets}</dd></div><div><dt className="text-[10px] uppercase tracking-wider text-alabaster/50">Support package</dt><dd className="mt-2 text-base font-medium">{capacityLedger.package}</dd></div></dl>
+                      <dl className="grid gap-5"><div><dt className="text-[10px] uppercase tracking-wider text-alabaster/50">Spaces available</dt><dd className="mt-2 text-sm leading-6">{reviewedBrief.assets}</dd></div><div><dt className="text-[10px] uppercase tracking-wider text-alabaster/50">Target hourly rate</dt><dd className="mt-2 text-base font-medium">{reviewedBrief.rate}</dd></div></dl>
                     </section>
                   </div>
                   <div className="animate-in mt-7 flex flex-col-reverse justify-between gap-3 border-t border-alabaster/10 pt-5 sm:flex-row sm:items-center">
@@ -371,30 +364,20 @@ export default function PortalDemo() {
                       <div className="mb-6 flex items-center justify-between gap-3"><h2 id="work-title" className="text-sm font-medium">The next 90 days</h2><span className="text-xs text-alabaster/50">3 tasks</span></div>
                       <ol className="ml-3 border-l border-alabaster/15">
                         {mockData.plan.map((item) => {
-                          const status = item.priority === 1 && decision ? ({ approved: "In production", declined: "Declined", discuss: "Discussion requested" } as const)[decision] : item.status;
+                          const status = item.priority === 1 && approved ? "In production" : item.status;
                           return (
                           <li key={item.priority} className="animate-in relative pb-7 pl-6 last:pb-0 sm:pl-7">
                             <span aria-hidden className="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center rounded-full border border-alabaster/15 bg-[#0b0b0b] text-[10px] text-neonlime">{item.priority}</span>
                             <h3 className="text-sm font-medium leading-6 sm:text-base">{item.title}</h3>
                             <p className="mt-2 text-xs leading-5 text-alabaster/50">{item.owner}</p>
                             <div className="mt-3 flex flex-wrap items-center gap-3">
-                              <span className={`inline-block rounded-full px-2.5 py-1 text-[10px] ${status === "Green light required" || status === "Discussion requested" ? "bg-amber-300/10 text-amber-200" : status === "In progress" || status === "In production" ? "bg-neonlime/10 text-neonlime" : "bg-alabaster/5 text-alabaster/65"}`}>{status}</span>
-                              {item.priority === 1 && !decision && (
-                                <>
-                                  <button type="button" onClick={() => decide("approved")} className={`rounded-full border border-neonlime/40 px-3 py-1 text-[11px] text-neonlime transition-colors hover:bg-neonlime/10 ${focusClass}`}>Approve as Jordan</button>
-                                  <button type="button" onClick={() => decide("discuss")} className={`rounded-full border border-alabaster/20 px-3 py-1 text-[11px] text-alabaster/75 transition-colors hover:bg-alabaster/5 ${focusClass}`}>Discuss</button>
-                                  <button type="button" onClick={() => decide("declined")} className={`rounded-full border border-alabaster/20 px-3 py-1 text-[11px] text-alabaster/75 transition-colors hover:bg-alabaster/5 ${focusClass}`}>Decline</button>
-                                </>
+                              <span className={`inline-block rounded-full px-2.5 py-1 text-[10px] ${status === "Green light required" ? "bg-amber-300/10 text-amber-200" : status === "In progress" || status === "In production" ? "bg-neonlime/10 text-neonlime" : "bg-alabaster/5 text-alabaster/65"}`}>{status}</span>
+                              {item.priority === 1 && !approved && (
+                                <button type="button" onClick={() => setApproved(true)} className={`rounded-full border border-neonlime/40 px-3 py-1 text-[11px] text-neonlime transition-colors hover:bg-neonlime/10 ${focusClass}`}>Approve as Jordan</button>
                               )}
                             </div>
                             {item.priority === 1 && (
-                              <>
-                                <p className="mt-2 text-[11px] leading-5 text-alabaster/50">Capacity check: about 9 of 11 remaining hours. Within capacity. Complexity: Class B.</p>
-                                <p className="mt-1 text-[11px] leading-5 text-alabaster/50">{decision === "approved" ? "Approved by Jordan on condition that the Bid Writer reviews before anything is submitted." : decision === "declined" ? "Declined by Jordan. No work has started." : decision === "discuss" ? "Jordan has asked to discuss before deciding. No work has started." : "Nothing is drafted until a named person approves."}</p>
-                                {decision && (
-                                  <p className="mt-1 text-[11px] leading-5 text-alabaster/50">Decision record: Jordan · {decidedAt} <button type="button" onClick={resetDecision} className={`ml-2 underline underline-offset-2 hover:text-alabaster ${focusClass}`}>Reset demo</button></p>
-                                )}
-                              </>
+                              <p className="mt-2 text-[11px] leading-5 text-alabaster/50">{approved ? "Approved by Jordan. Drafting can begin; the Bid Writer reviews before anything is submitted." : "Nothing is drafted until a named person approves."}</p>
                             )}
                           </li>
                           );
@@ -406,14 +389,6 @@ export default function PortalDemo() {
                         <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-neonlime">Your next decision</p>
                         <h2 id="decision-title" className="text-base font-medium leading-snug">Agree who will take the first step.</h2>
                         <p className="mt-3 text-sm leading-6 text-alabaster/65">Confirm who will check the floor size and gather audience information. Then decide whether to proceed with the funding application.</p>
-                      </section>
-                      <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="needs-title">
-                        <h2 id="needs-title" className="text-sm font-medium">What we need from you</h2>
-                        <ol className="mt-4 grid gap-3">
-                          <li className="flex gap-3 text-sm leading-6"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">01</span>Confirm the correct floor size: 3,766m² or 3,392m².</li>
-                          <li className="flex gap-3 text-sm leading-6"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">02</span>Share information about the local people the project will serve.</li>
-                        </ol>
-                        <p className="mt-4 text-[11px] leading-5 text-alabaster/50">Drafting starts once both are confirmed.</p>
                       </section>
                       <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="capacity-title">
                         <h2 id="capacity-title" className="text-sm font-medium">Your support hours</h2>
