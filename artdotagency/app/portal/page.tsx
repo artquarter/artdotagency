@@ -436,7 +436,7 @@ export default function PortalDemo() {
                     <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="gaps-title">
                       <div className="mb-5 flex items-center justify-between gap-3"><h2 id="gaps-title" className="text-sm font-medium">What’s missing</h2><span className="rounded-full bg-red-400/10 px-2.5 py-1 text-[10px] text-red-300">2 items</span></div>
                       <ol className="divide-y divide-alabaster/10">
-                        {aiData.diagnostic.evidenceGaps.map((gap, index) => (
+                        {aiData.diagnostic.evidenceGaps.map((gap: string, index: number) => (
                           <li key={gap} className="flex gap-3 py-4 first:pt-0 last:pb-0"><span className="mt-0.5 text-xs tabular-nums text-alabaster/50">0{index + 1}</span><div><p className="text-sm leading-6">{gap}</p><span className="mt-2 inline-block rounded-full bg-red-400/10 px-2.5 py-1 text-[10px] text-red-300">{evidenceStates[index]}</span></div></li>
                         ))}
                       </ol>
@@ -494,7 +494,7 @@ export default function PortalDemo() {
                     <section className={`animate-in ${cardClass} p-5 sm:p-6`} aria-labelledby="work-title">
                       <div className="mb-6 flex items-center justify-between gap-3"><h2 id="work-title" className="text-sm font-medium">The next 90 days</h2><span className="text-xs text-alabaster/50">3 tasks</span></div>
                       <ol className="ml-3 border-l border-alabaster/15">
-                        {aiData.plan.map((item) => {
+                        {aiData.plan.map((item: any) => {
                           const status = item.priority === 1 && decision ? ({ approved: "In production", declined: "Declined", discuss: "Discussion requested" } as const)[decision] : item.status;
                           return (
                           <li key={item.priority} className="animate-in relative pb-7 pl-6 last:pb-0 sm:pl-7">
