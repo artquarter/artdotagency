@@ -4,7 +4,7 @@ import { useState, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 const mockData = {
-  client: "Art Quarter (Coventry Cultural Gateway)",
+  client: "Art Quarter",
   capacityLedger: {
     package: "Growth Partner",
     fee: "£6,000/month",
@@ -91,7 +91,7 @@ export default function DashboardPrototype() {
           </div>
           <div className="flex flex-col gap-2 w-full md:w-64">
             <div className="flex items-center justify-between text-sm">
-              <span className="font-medium">Capacity Ledger</span>
+              <span className="font-medium">Support hours</span>
               <span className="text-gray-500">{mockData.capacityLedger.allocated}h / {mockData.capacityLedger.maxHours}h</span>
             </div>
             <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
@@ -107,8 +107,8 @@ export default function DashboardPrototype() {
         <div className="max-w-6xl mx-auto px-6">
           <nav className="flex gap-8 border-t border-gray-100 pt-1 -mb-px">
             {[
-              { id: "diagnostic", label: "Diagnostic Health" },
-              { id: "opportunities", label: "Opportunity Scout" },
+              { id: "diagnostic", label: "Priorities" },
+              { id: "opportunities", label: "Options" },
               { id: "plan", label: "90-Day Plan" }
             ].map((tab) => (
               <button
@@ -130,25 +130,25 @@ export default function DashboardPrototype() {
       {/* Main Content Area */}
       <main className="max-w-6xl mx-auto px-6 py-12" ref={contentRef}>
         
-        {/* TAB 1: Diagnostic Health */}
+        {/* TAB 1: Priorities */}
         {activeTab === "diagnostic" && (
           <div className="grid gap-6 md:grid-cols-2">
             <div className="animate-in bg-white border border-gray-200 rounded-lg p-6">
-              <h2 className="text-xs uppercase tracking-wider text-gray-400 mb-6">Asset Baseline</h2>
+              <h2 className="text-xs uppercase tracking-wider text-gray-400 mb-6">Your space</h2>
               <dl className="grid gap-6">
                 <div>
-                  <dt className="text-sm text-gray-500 mb-1">Physical Assets</dt>
+                  <dt className="text-sm text-gray-500 mb-1">Spaces available</dt>
                   <dd className="text-base font-medium">{mockData.diagnostic.physicalAssets}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm text-gray-500 mb-1">Target Realised Rate</dt>
+                  <dt className="text-sm text-gray-500 mb-1">Target hourly rate</dt>
                   <dd className="text-base font-medium">{mockData.diagnostic.targetRealisedRate}</dd>
                 </div>
               </dl>
             </div>
 
             <div className="animate-in bg-red-50 border border-red-100 rounded-lg p-6">
-              <h2 className="text-xs uppercase tracking-wider text-red-500 font-semibold mb-6">Attention Required: Evidence Gaps</h2>
+              <h2 className="text-xs uppercase tracking-wider text-red-500 font-semibold mb-6">What needs fixing</h2>
               <ul className="grid gap-4">
                 {mockData.diagnostic.evidenceGaps.map((gap, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-red-900">
@@ -161,7 +161,7 @@ export default function DashboardPrototype() {
           </div>
         )}
 
-        {/* TAB 2: Opportunity Scout */}
+        {/* TAB 2: Options */}
         {activeTab === "opportunities" && (
           <div className="grid gap-4">
             {mockData.opportunities.map((opp) => (
@@ -212,7 +212,7 @@ export default function DashboardPrototype() {
         {/* TAB 3: 90-Day Plan */}
         {activeTab === "plan" && (
           <div className="bg-white border border-gray-200 rounded-lg p-8">
-            <h2 className="text-xs uppercase tracking-wider text-gray-400 mb-8">Active Workflows</h2>
+            <h2 className="text-xs uppercase tracking-wider text-gray-400 mb-8">Next steps</h2>
             <div className="relative border-l border-gray-200 ml-3 md:ml-4">
               {mockData.plan.map((item, i) => (
                 <div key={item.priority} className="animate-in mb-10 pl-6 md:pl-8 relative last:mb-0">
